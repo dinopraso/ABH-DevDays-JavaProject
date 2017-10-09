@@ -1,0 +1,21 @@
+<div class="container popularLocations">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="section-title">Popular Locations</h1>
+    </div>
+  </div>
+  <div class="row">
+    {{#each locations as |location|}}
+    <div class="col-xs-6 col-sm-3 location">
+      {{#link-to 'restaurants' (query-params city=location.city.id) class="location-link"}}
+      <p class="location-city-name">
+        {{location.city.name}}
+      </p>
+      <p class="location-restaurant-count">
+        {{location.numberOfRestaurants}} restaurant{{if location.isPlural 's'}}
+      </p>
+      {{/link-to}}
+    </div>
+    {{/each}}
+  </div>
+</div>

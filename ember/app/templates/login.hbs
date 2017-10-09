@@ -1,0 +1,35 @@
+<div id="wrap">
+  {{navigation-wrapper}}
+  <div id="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+          {{#if hasError}}
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="error-message">{{fa-icon "exclamation-triangle"}}{{errorMessage}}</p>
+            </div>
+          </div>
+          {{/if}}
+          <form class="login-register-form" {{action 'authenticate' on='submit'}}>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <h1 class="form-title">Login</h1>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <h5 class="form-link">{{#link-to 'register'}}Create Account{{/link-to}}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                {{input id='email' class='form-input' type='email' placeholder='Email' value=email}}
+                {{input id='password' class='form-input' type='password' placeholder='Password'value=password}}
+                <button class="form-button" type="submit">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

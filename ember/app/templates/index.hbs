@@ -1,0 +1,66 @@
+<div id="wrap" class="white-wrapeer">
+  {{#navigation-wrapper type="homepage" coverImage="https://abhrestaurants.s3.amazonaws.com/placeholder-cover.jpg" user=model.user}}
+
+  <h1>Make a free reservation</h1>
+  <h3>Choose a table from {{model.numberOfRastaurants}} restaurants near you</h3>
+
+  <form class="search-box table-search-box" {{action 'findTable' on='submit'}}>
+    <label for="search">{{fa-icon "search"}}</label>
+    {{input id='search' class="search-textbox" placeholder='Location, Restaurant or Cousine' value=restaurant_name}}
+    <select class="index-table-search-input" id="numberOfPeople" {{action 'setNumberOfPeople' on='change' }}>
+      <option value=1>1 Person</option>
+      <option value=2 selected>2 People</option>
+      <option value=3>3 People</option>
+      <option value=4>4 People</option>
+      <option value=5>5 People</option>
+      <option value=6>6 People</option>
+      <option value=7>7 People</option>
+      <option value=8>8 People</option>
+    </select>
+    {{input class="index-table-search-input" id='date' type='date' value=date required="required"}}
+    {{input class="index-table-search-input" type='time' value=time required="required"}}
+    <button class="table-search-button" type="submit">Find a table</button>
+  </form>
+  {{#if errorMessage}}
+  <p>{{errorMessage}}</p>
+  {{/if}}
+
+  {{/navigation-wrapper}}
+
+  <div id="main">
+    {{#if geolocation}}
+    <div class="container popularRestaurants">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 class="section-title">Restaurants Near You</h1>
+        </div>
+      </div>
+      <div class="row">
+        {{#each nearbyRestaurants as |restaurant|}}
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          {{restaurant-tile data=restaurant buttonStyle="grey"}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+    {{#if hasPopularRestaurants}}
+    <div class="container popularRestaurants">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 class="section-title">Popular Today</h1>
+        </div>
+      </div>
+      <div class="row">
+        {{#each model.popularRestaurants as |restaurant|}}
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          {{restaurant-tile data=restaurant buttonStyle="grey"}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+
+    {{popular-locations locations=model.popularLocations}}
+  </div>
+</div>

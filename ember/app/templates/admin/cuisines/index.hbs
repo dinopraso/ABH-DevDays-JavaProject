@@ -1,0 +1,13 @@
+<div class="admin-form">
+  <h1 class="admin-from-title">All Cuisines</h1>
+  {{#link-to 'admin.cuisines.new' class="admin-from-new-button"}}Add new Cuisine{{/link-to}}
+  <ul class="admin-form-object-list">
+    {{#each model.cuisines as |cuisine|}}
+    <li class="admin-form-object-list-item">
+      <h3>{{cuisine.name}}</h3>
+      {{#link-to 'admin.cuisines.delete' cuisine.id class="list-item-button"}}Delete{{/link-to}}
+      {{#link-to 'admin.cuisines.edit' cuisine.id class="list-item-button"}}Edit{{/link-to}}
+    </li>
+    {{/each}}
+  </ul>
+</div>

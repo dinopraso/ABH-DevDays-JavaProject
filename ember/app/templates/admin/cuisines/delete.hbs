@@ -1,0 +1,13 @@
+<form class="admin-form" {{action 'deleteCuisine' on='submit'}}>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="admin-from-title">Delete {{model.cuisine.name}}?</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12" style="text-align: right">
+      {{#link-to 'admin.cuisines' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+      <button class="form-button form-button-small" type="submit">Delete {{model.cuisine.name}}</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,189 @@
+<div id="wrap">
+  {{navigation-wrapper type="restaurant" coverImage=model.restaurant.coverImagePath user=model.user}}
+  <div id="main">
+    <div class="container overlapping-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-3">
+          <div class="restaurant-profile-picture">
+            <img src="{{model.restaurant.profileImagePath}}" alt="" />
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+          <h1 class="restaurant-name">{{model.restaurant.name}}</h1>
+          <p class="restaurant-tile-rating">
+            {{star-score averageRating=model.restaurant.averageRating class="restaurant-tile-stars-light"}}
+            <span class="restaurant-tile-ratecount restaurant-tile-ratecount-light">({{model.restaurant.numberOfRatings}})</span>
+            {{price-range priceRange=model.restaurant.priceRange class="restaurant-tile-pricernage restaurant-tile-pricernage-light"}}
+            <span class="restaurant-tile-foodtypes restaurant-tile-foodtypes-light space-out-left">
+              {{#each model.restaurant.cuisines as |cuisine|}}<span>{{cuisine.name}}</span>{{/each}}
+            </span>
+            <span class="restaurant-tile-foodtypes restaurant-tile-foodtypes-light">
+              {{openTime}} - {{closeTime}}
+            </span>
+          </p>
+          {{#if model.user.isLoggedIn}}
+            <button class="restaurant-rate-this-button" type="button" data-toggle="modal" data-target="#submitRatingModal" {{action 'showRatingDialog'}}>{{fa-icon "star"}} Rate this place</button>
+          {{/if}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-3">
+          <ul class="restaurant-navigation">
+            <li><a id="reservation" href="#reservation">Reservation</a></li>
+            <li><a id="about" href="#about">About</a></li>
+            <li><a id="menu" href="#menu">Menu</a></li>
+            <li><a id="photos" href="#photos">Photos</a></li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-9 move-up-compensate-for-overlay">
+          <div id="reservation" class="restaurant-card">
+            <h2 class="restaurant-card-title">Make a Free Reservation</h2>
+            <form class="reservation-form" {{action 'findTable' on='submit'}}>
+              <select id="numberOfPeople" {{action 'setNumberOfPeople' on='change' }}>
+                <option value=1>1 Person</option>
+                <option value=2>2 People</option>
+                <option value=3>3 People</option>
+                <option value=4>4 People</option>
+                <option value=5>5 People</option>
+                <option value=6>6 People</option>
+                <option value=7>7 People</option>
+                <option value=8>8 People</option>
+              </select>
+              {{input type="date" value=date required="required" min=today}}
+              {{input type="time" value=time required="required" min=openTime max=closeTime}}
+              <button type="submit" class="reservation-form-button">Find Table</button>
+            </form>
+            {{#if model.didFindTable}}
+              <h3 class="restaurant-reservation-availability">Availability on {{model.response.inquiry.date}} around {{model.response.inquiry.time}} for {{model.response.inquiry.numberOfPeople}} People:</h3>
+              <p class="restaurant-reservation-info">
+                <span>{{#if areAvailableTables}}{{fa-icon "check-circle"}}{{else}}{{fa-icon "times-circle"}}{{/if}}Number of Tables Left: {{model.response.numberOfTablesLeft}}</span><span>{{fa-icon "info-circle"}}Reservations Today: {{model.response.numberOfReservationsToday}}</span>
+              </p>
+              {{#unless (eq model.response.numberOfTablesLeft 0)}}
+                <h5 class="restaurant-reservation-times-title">Select the best time that fits you:</h5>
+                <p class="restaurant-reservation-times">
+                  {{#each model.response.timeSuggestions as |suggestion|}}
+                  <span {{action 'reserve' suggestion}}>{{suggestion}}</span>
+                  {{/each}}
+                </p>
+              {{/unless}}
+            {{/if}}
+          </div>
+          <div id="about" class="restaurant-card">
+            <h2 class="restaurant-card-title">About {{model.restaurant.name}}</h2>
+            <h5 class="restaurant-card-subtitle">Description</h5>
+            <p class="restaurant-card-bodytext">
+              {{model.restaurant.description}}
+            </p>
+          </div>
+          <div id="menu" class="restaurant-card">
+            <h2 class="restaurant-card-title floating">Menu:</h2>
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#breakfast" data-toggle="tab">Breakfast</a></li>
+              <li><a href="#lunch" data-toggle="tab">Lunch</a></li>
+              <li><a href="#dinner" data-toggle="tab">Dinner</a></li>
+            </ul>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="breakfast">
+                    {{#each breakfastMenu as |item index|}}
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="menu-item">
+                          <div class="row">
+                            <div class="col-xs-8">
+                              <h3 class="dish-name">{{item.name}}</h3>
+                            </div>
+                            <div class="col-xs-4">
+                              <h4 class="dish-price"><span class="menu-price-sign">$</span>{{item.price}}</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h5 class="dish-description">{{item.description}}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {{/each}}
+                  </div>
+                  <div class="tab-pane" id="lunch">
+                    {{#each lunchMenu as |item index|}}
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="menu-item">
+                          <div class="row">
+                            <div class="col-xs-8">
+                              <h3 class="dish-name">{{item.name}}</h3>
+                            </div>
+                            <div class="col-xs-4">
+                              <h4 class="dish-price"><span class="menu-price-sign">$</span>{{item.price}}</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h5 class="dish-description">{{item.description}}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {{/each}}
+                  </div>
+                  <div class="tab-pane" id="dinner">
+                    {{#each dinnerMenu as |item index|}}
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="menu-item">
+                          <div class="row">
+                            <div class="col-xs-8">
+                              <h3 class="dish-name">{{item.name}}</h3>
+                            </div>
+                            <div class="col-xs-4">
+                              <h4 class="dish-price"><span class="menu-price-sign">$</span>{{item.price}}</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h5 class="dish-description">{{item.description}}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="submitRatingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <h4 class="modal-title" id="ratingModalLabel">Rate this place</h4>
+      <button type="button" class="close close-modal-button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <form>
+        <div class="rating-control" id="rating-control">
+          {{#radio-button value=1 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+          {{#radio-button value=2 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+          {{#radio-button value=3 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+          {{#radio-button value=4 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+          {{#radio-button value=5 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+        </div>
+        {{textarea class="review-textarea" type="text" placeholder="Write a Review" value=review_text required="required"}}
+        <button class="submit-review-button" {{action "submitReviewAction"}}>Save</button>
+        {{#if model.hasError}}
+          <p class="error-message">{{model.errorMessage}}</p>
+        {{/if}}
+    </form>
+    </div>
+  </div>
+</div>

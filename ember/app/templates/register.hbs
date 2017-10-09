@@ -1,0 +1,45 @@
+<div id="wrap">
+  {{navigation-wrapper}}
+  <div id="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+          {{#if hasError}}
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="error-message">{{fa-icon "exclamation-triangle"}}{{errorMessage}}</p>
+            </div>
+          </div>
+          {{/if}}
+          <form class="login-register-form" {{action 'register' on='submit'}}>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <h1 class="form-title">Create Account</h1>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <h5 class="form-link">{{#link-to 'login'}}Login{{/link-to}}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                {{input class='form-input' type='text' placeholder='First Name' value=first_name}}
+                {{input class='form-input' type='text' placeholder='Last Name' value=last_name}}
+                {{input class='form-input' id="username" type='email' placeholder='Email' value=email}}
+                {{input class='form-input' type='text' placeholder='Phone Number' value=phone_number}}
+                <select class='form-input' id="city-select" {{action 'setCity' on='change'}}>
+                  {{#each model.cities as |city|}}
+                  <option value="{{city.id}}">{{city.name}}</option>
+                  {{/each}}
+                </select>
+                {{input class='form-input' type='text' placeholder='Address' value=address}}
+                {{input class='form-input' type='password' placeholder='Password'value=password}}
+                {{input class='form-input' type='password' placeholder='Confirm Password'value=confurm_password}}
+                <button class="form-button" type="submit">Create Account</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

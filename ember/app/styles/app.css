@@ -1,0 +1,1896 @@
+/*-----------------------------------------------------------------------------*\
+      GENERAL
+\*-----------------------------------------------------------------------------*/
+
+@import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600';
+
+* {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.active {
+  color: #fd6f60 !important;
+}
+
+.map-canvas {
+  height: 360px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.small-map .map-canvas {
+  height: 180px;
+}
+
+/*-----------------------------------------------------------------------------*\
+      WRAPPER
+\*-----------------------------------------------------------------------------*/
+
+html, body, body > .ember-view {
+  height: 100%;
+}
+
+#wrap {
+  background-color: #f9f9f9;
+  min-height: 100%;
+}
+
+  .white-wrapeer {
+    background-color: #fff !important;
+  }
+
+#main {
+  /*overflow: auto;*/
+  padding-bottom: 230px;
+}
+
+footer {
+  position: relative;
+  margin-top: -150px; /* negative value of footer height */
+  height: 150px;
+  clear:both;
+  padding-top: 40px;
+
+  width: 100%;
+  background-color: #131d24;
+}
+
+.section-title {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 80px 0 75px;
+  font-size: 30px;
+  font-weight: 300;
+  color: #131d24;
+}
+
+/*-----------------------------------------------------------------------------*\
+      BOOSTSTRAP OVERRIDES
+\*-----------------------------------------------------------------------------*/
+
+.nav-container {
+  position: relative;
+  z-index: 5;
+}
+
+.navbar-default {
+  background-color: #fff;
+  border: none;
+  border-radius: 0;
+}
+
+  .navbar-brand {
+    font-size: 20px;
+    height: 85px;
+  }
+
+  .nav-link-custom {
+
+  }
+
+    .container.white-text .navbar-brand {
+      color: #fff !important;
+    }
+
+    .container.white-text .nav-link-custom > a,
+    .container.white-text .nav-link-custom > a:focus {
+      color: #fff;
+    }
+
+    .container.grey-text .navbar-brand {
+      color: #131d24 !important;
+    }
+
+    .container.grey-text .nav-link-custom > a {
+      color: #131d24;
+    }
+
+    .navbar-brand,
+    .nav-link-custom > a {
+      font-weight: 600;
+      padding-top: 33px !important;
+      padding-bottom: 32px !important;
+    }
+
+    .nav-link-custom > a {
+      font-size: 16px;
+    }
+
+    .nav-link-custom:hover > a {
+      color: #fd6f60 !important;
+    }
+
+/*-----------------------------------------------------------------------------*\
+      LOGIN AND REGISTER FORMS
+\*-----------------------------------------------------------------------------*/
+
+.error-message {
+  width: 100%;
+  margin-bottom: -36px;
+  display: block;
+  border-radius: 2px;
+  background-color: rgba(253, 111, 96, 0.4);
+  font-size: 14px;
+  font-weight: normal;
+  color: rgba(38, 38, 38, 0.7);
+  padding: 8px 13px;
+}
+
+  .error-message i {
+    margin-right: 8px;
+  }
+
+.login-register-form {
+  margin: 70px 0 90px;
+}
+
+.form-title {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  color: #131d24;
+  margin-bottom: 20px;
+}
+
+.form-link {
+  padding: 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: right;
+  color: #fd6f60;
+  cursor: pointer;
+}
+
+  .form-link a {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+.form-input {
+  box-sizing: border-box;
+  padding: 0 20px;
+  width: 100%;
+  height: 53px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: solid 1px #e1e1e1;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #131d24;
+  resize: vertical;
+}
+
+  textarea.form-input {
+    padding: 10px 20px;
+    height: 180px;
+  }
+
+.form-button {
+  width: 100%;
+  height: 53px;
+  border-radius: 3px;
+  background-color: #fd6f60;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  margin-top: 30px;
+}
+
+  .form-button-small {
+    width: auto;
+    padding: 15px 30px;
+    margin-left: 14px;
+  }
+
+  .form-button-grey {
+    border-radius: 3px;
+    background-color: #ffffff;
+    border: solid 1px #e6e8eb;
+    color: #131d24 !important;
+  }
+
+/*-----------------------------------------------------------------------------*\
+      LANDING PAGE SEARCH
+\*-----------------------------------------------------------------------------*/
+
+.index-table-search-input {
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  text-align: center;
+  height: 23px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #131d24;
+}
+
+/*-----------------------------------------------------------------------------*\
+      POPULAR LOCATIONS
+\*-----------------------------------------------------------------------------*/
+
+.location {
+  margin-bottom: 25px;
+}
+
+  .location-link {
+    text-decoration: none;
+    color: #131d24;
+    cursor: pointer;
+  }
+
+  .location-link:hover,
+  .location-link:active {
+    text-decoration: none;
+  }
+
+  .location-city-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #131d24;
+    margin-bottom: 0;
+  }
+
+  .location-restaurant-count {
+    font-size: 18px;
+    color: #131d24;
+    opacity: 0.4;
+  }
+
+/*-----------------------------------------------------------------------------*\
+      RESTAURANT FILTER
+\*-----------------------------------------------------------------------------*/
+
+.restaurant-filter-box {
+  position: relative;
+  margin: 10px 0 20px;
+  height: 56px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+  .restaurant_search_textbox {
+    width: -webkit-calc(100% - 327px) !important;
+    width: -moz-calc(100% - 327px) !important;
+    width: -o-calc(100% - 327px) !important;
+    width: -ms-calc(100% - 327px) !important;
+    width: calc(100% - 327px) !important;
+  }
+
+  .show-popup-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    height: 56px;
+    margin: 0;
+    padding: 0 25px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #131d24;
+  }
+
+  .show-popup-button i {
+    position: relative;
+    top: -2px;
+    font-size: 11px;
+    padding-left: 10px;
+    opacity: 0.4;
+  }
+
+  #searchFilters,
+  #searchSort {
+    position: absolute;
+    box-sizing: border-box;
+    z-index: 50;
+    height: 0px;
+  }
+
+  #searchFilters {
+    width: 328px;
+    right: 0px;
+    top: 50px;
+  }
+
+  #searchSort {
+    width: 200px;
+    right: 115px;
+    top: 50px;
+  }
+
+  .filter-popup-arrow {
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 52;
+    top: 3px;
+    left: 50%;
+    margin-left: -7px;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    border-left: solid 1px #dbdbdb;
+    border-top: solid 1px #dbdbdb;
+
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  #searchFilters .filter-popup-arrow {
+    left: 75%;
+  }
+
+  .filter-popup-content {
+    display: block;
+    position: absolute;
+    z-index: 51;
+    top: 9px;
+    right: 0;
+    left: 0;
+    border-radius: 3px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.1);
+    border: solid 1px #dbdbdb;
+    padding: 20px;
+    padding-bottom: 24px;
+  }
+
+    .filter-popup-content h5 {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(46, 57, 63, 0.6);
+      text-transform: uppercase;
+      margin: 0;
+      padding: 0;
+      margin-bottom: 10px;
+    }
+
+    .filter-popup-content hr {
+      display: block;
+      outline: none;
+      border: none;
+      height: 1px;
+      background-color: #e7eaec;
+      padding: 0;
+      margin: 20px 0 16px;
+    }
+
+    .filter-popup-content input[type="checkbox"] {
+      visibility: hidden;
+      width: 0;
+      height: 0;
+    }
+
+    .filter-popup-content input[type="checkbox"]:checked + label {
+      color: #fd6f60;
+    }
+
+    .filter-popup-content input[type="radio"] {
+      width: 0;
+      height: 0;
+      visibility: hidden;
+    }
+
+
+    #price-filter-control,
+    #rating-filter-control {
+      display: inline-block;
+      position: relative;
+      width: 140px;
+      cursor: default;
+    }
+
+    /* TODO REMOVE WHEN RATING IMPLEMENTED */
+    #rating-filter-control {
+      opacity: 0.3;
+    }
+
+    #rating-filter-control h5 {
+      text-decoration: line-through;
+    }
+    /* END OF TODO */
+
+    #price-filter-control label,
+    #rating-filter-control label {
+      font-size: 16px;
+      cursor: pointer;
+      margin: 0;
+      color: rgba(19, 29, 36, 0.2);
+    }
+
+    #price-filter-control label.checked,
+    #rating-filter-control label.checked {
+      color: #fd6f60;
+    }
+
+    .filter-popup-content label.checked {
+      color: #fd6f60;
+    }
+
+    .sort-by-control label {
+      cursor: pointer;
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px 10px;
+    }
+
+    .multiselect-checkboxes {
+      display: block;
+      position: relative;
+      margin: 0;
+      padding: 0;
+      cursor: default;
+    }
+
+      .hidden-chackboxes input[type="checkbox"] {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+      }
+
+    .multiselect-checkboxes li {
+      position: relative;
+      display: inline-block;
+      width: 140px;
+      margin-bottom: 5px;
+    }
+
+      .multiselect-checkboxes li label {
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        cursor: pointer;
+        color: #000;
+      }
+
+.currentFilterBubbleRow {
+  height: 22px;
+  margin-bottom: 20px;
+}
+
+  .currentFilterBubble {
+    display: inline-block;
+    position: relative;
+    height: 22px;
+    float: left;
+    background-color: #fd6f60;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 20px;
+    margin: 0;
+    margin-right: 20px;
+    padding: 2px 7px 2px 10px;
+    font-weight: 600;
+  }
+
+    .currentFilterBubble span {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 11px;
+      opacity: 0.9;
+      font-weight: 400;
+      margin-right: 5px;
+      cursor: default;
+    }
+
+    .currentFilterBubble span:last-child {
+      cursor: pointer;
+      margin-right: 0;
+      margin-left: 8px;
+      font-size: 13px;
+    }
+
+/*-----------------------------------------------------------------------------*\
+      RESTAURANT TILE
+\*-----------------------------------------------------------------------------*/
+
+.restaurant-tile {
+  position: relative;
+  width: 100%;
+  min-height: 421px;
+  margin-bottom: 50px;
+}
+
+  .restaurant-tile a:hover,
+  .restaurant-tile a:focus {
+    text-decoration: none;
+  }
+
+  .restaurant-tile a:hover .restaurant-tile-name {
+    color: #fd6f60;
+  }
+
+  .restaurant-tile-image {
+    width: 100%;
+    height: 260px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .restaurant-tile-name {
+    margin-top: 15px;
+    font-size: 24px;
+    font-weight: normal;
+    color: #131d24;
+  }
+
+  .restaurant-tile-rating {
+    font-size: 16px;
+    height: 19px;
+  }
+
+    .restaurant-tile-stars {
+      float: left;
+    }
+
+    .restaurant-tile-stars i.full {
+      color: #fd6f60;
+    }
+
+    .restaurant-tile-stars i.empty {
+      color: rgba(19, 29, 36, 0.2);
+    }
+
+      .restaurant-tile-stars i {
+        margin-right: 7px;
+      }
+
+    .restaurant-tile-ratecount {
+      opacity: 0.4;
+      color: #131d24;
+      padding: 0 6px;
+      float: left;
+    }
+
+    .restaurant-tile-pricernage {
+      font-size: 12px;
+      font-weight: 600;
+      color: #131d24;
+      float: left;
+      padding: 3px 0;
+      margin-left: 5px;
+    }
+
+      .restaurant-tile-pricernage .empty {
+        opacity: 0.4;
+      }
+
+  .restaurant-tile-separator {
+    border: none;
+    outline: none;
+    height: 1px;
+    width: 100%;
+    background-color: #e5e5e5;
+    margin-top: 14px;
+    margin-bottom: 5px;
+  }
+
+  .restaurant-tile-foodtypes {
+    color: #131d24;
+    opacity: 0.4;
+    font-size: 16px;
+    margin-bottom: 25px;
+  }
+
+    .restaurant-tile-foodtypes span {
+      position: relative;
+      display: inline-block;
+      padding: 0 10px;
+    }
+
+    .restaurant-tile-foodtypes span:after {
+      content: '|';
+      position: absolute;
+      right: -1px;
+    }
+
+    .restaurant-tile-foodtypes span:first-of-type {
+      padding-left: 0;
+    }
+
+    .restaurant-tile-foodtypes span:last-of-type:after {
+      display: none;
+    }
+
+  .reserve-now-button {
+    outline: none;
+    border-radius: 2px;
+    border: solid 1px #e5e5e5;
+    font-size: 18px;
+    font-weight: 600;
+    height: 36px;
+    width: 100%;
+    color: #131d24;
+  }
+
+    .white-button {
+      background-color: #fff;
+    }
+
+    .grey-button {
+      background-color: #f9f9f9;
+    }
+
+/*-----------------------------------------------------------------------------*\
+      NAVIGATION
+\*-----------------------------------------------------------------------------*/
+
+.navigation-background {
+  position: relative;
+  z-index: 0;
+  margin-top: -85px;
+  width: 100%;
+  background-color: #131d24;
+}
+
+  .navigation-background-homepage {
+    height: 680px;
+  }
+
+  .navigation-background-restaurant {
+    height: 340px;
+  }
+
+  .navigation-background-image {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: inherit;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+  }
+
+  .navigation-additional-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .navigation-additional-content h1,
+  .navigation-additional-content h3 {
+    color: #fff;
+    text-align: center;
+  }
+
+  .navigation-additional-content h1 {
+    margin-top: 147px;
+    font-size: 48px;
+    font-weight: 300;
+  }
+
+  .navigation-additional-content h3 {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .table-search-box {
+    position: relative;
+    margin-top: 121px;
+    width: 100%;
+    height: 56px;
+    background-color: #fff;
+    border-radius: 3px;
+    padding-right: 161px;
+  }
+
+    .search-box label[for="search"] {
+      padding: 0 14px 0 23px;
+    }
+
+    .search-textbox {
+      border: none;
+      outline: none;
+      height: inherit;
+      font-size: 18px;
+      color: #000;
+      width: -webkit-calc(100% - 438px);
+      width: -moz-calc(100% - 438px);
+      width: -o-calc(100% - 438px);
+      width: -ms-calc(100% - 438px);
+      width: calc(100% - 438px);
+    }
+
+    .table-search-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: #fd6f60;
+      height: inherit;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 0 35px;
+      color: #fff;
+      outline: none;
+      border: none;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+
+/*-----------------------------------------------------------------------------*\
+      RESTAURANT PAGE
+\*-----------------------------------------------------------------------------*/
+
+.float-left {
+  float: left;
+}
+
+.overlapping-header {
+  margin-top: -143px;
+}
+
+.restaurant-profile-picture {
+  display: block;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+
+  border-radius: 8px;
+  background-color: #d8d8d8;
+  box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.1);
+  border: solid 6px #ffffff;
+}
+
+  .restaurant-profile-picture img {
+    width: 100%;
+    height: auto;
+  }
+
+  .restaurant-name {
+    font-size: 30px;
+    color: #fff;
+  }
+
+  .restaurant-tile-foodtypes-light,
+  .restaurant-tile-pricernage-light,
+  .restaurant-tile-ratecount-light {
+    color: #fff;
+  }
+
+  .restaurant-tile-stars-light i.empty {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .space-out-left {
+    margin-left: 16px;
+  }
+
+.restaurant-rate-this-button {
+  float: right;
+  height: 36px;
+  border: none;
+  outline: none;
+  padding: 0 19px 0 15px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  color: #131d24;
+  margin-top: -45px;
+}
+
+  .restaurant-rate-this-button i {
+    margin-right: 8px;
+    color: #fd6f60;
+  }
+
+.move-up-compensate-for-overlay {
+  margin-top: -106px;
+}
+
+.reservation-form {
+  display: block;
+  width: 100%;
+  height: 56px;
+}
+
+  .reservation-form:after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+
+  .reservation-form > * {
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    width: 25%;
+    display: block;
+    box-sizing: border-box;
+    float: left;
+    height: 100%;
+  }
+
+  .reservation-form > *:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  .reservation-form > *:not(.reservation-form-button) {
+    border: solid 1px #e3e3e3;
+    border-right: none;
+    font-size: 18px;
+    font-weight: 600;
+    padding-left: 20px;
+    color: #131d24;
+  }
+
+  .reservation-form-button {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-color: #fd6f60;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+.restaurant-reservation-availability {
+  font-size: 20px;
+  font-weight: normal;
+  color: #131d24;
+  margin-top: 30px;
+  margin-bottom: 6px;
+}
+
+.restaurant-reservation-info {
+  font-size: 14px;
+  font-weight: normal;
+  color: #131d24;
+  margin-bottom: 30px;
+}
+
+  .restaurant-reservation-info span {
+    margin-right: 15px;
+  }
+
+  .restaurant-reservation-info span i {
+    padding-right: 8px;
+  }
+
+  .restaurant-reservation-info span i.fa-check-circle { color: green ;}
+  .restaurant-reservation-info span i.fa-times-circle { color: red ;}
+
+.restaurant-reservation-times-title {
+  font-size: 18px;
+  font-weight: normal;
+  color: #131d24;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.restaurant-reservation-times {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  cursor: pointer;
+}
+
+  .restaurant-reservation-times span {
+    padding: 7px 16px;
+    background-color: #fd6f60;
+    border-radius: 2px;
+    margin-right: 10px;
+  }
+
+.restaurant-card {
+  position: relative;
+  padding: 28px 30px 44px;
+  display: block;
+  box-sizing: border-box;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.restaurant-card:first-child {
+  margin-top: 47px;
+}
+
+  .restaurant-card-title,
+  .restaurant-card-subtitle,
+  .restaurant-card-bodytext {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 24px;
+    font-size: 20px;
+    color: rgba(19, 29, 36, 0.4);
+  }
+
+  .restaurant-card-subtitle,
+  .restaurant-card-bodytext {
+    font-size: 18px;
+  }
+
+  .restaurant-card-bodytext {
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .restaurant-card-title.floating {
+    float: left;
+    margin-right: 40px;
+  }
+
+.restaurant-navigation {
+  display: block;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+  .restaurant-navigation li {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: #131d24;
+    padding: 10px 0;
+  }
+
+    .restaurant-navigation li a:target {
+      opacity: 1;
+    }
+
+    .restaurant-navigation li a {
+      opacity: 0.4;
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: inherit;
+      text-decoration: none;
+    }
+
+.modal-content {
+  position: relative;
+  box-sizing: border-box;
+  padding: 50px 118px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.1);
+}
+
+.stacktrace-content {
+  padding: 0;
+}
+
+.stacktrace-content p {
+  /*word-break: break-all;*/
+  word-wrap: break-word;
+}
+
+  .close-modal-button {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+  }
+
+  .modal-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: normal;
+    color: #131d24;
+    margin-bottom: 37px;
+  }
+
+  .review-textarea {
+    display: block;
+    box-sizing: border-box;
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    height: 233px;
+    border-radius: 2px;
+    outline: none;
+    border: solid 1px #e1e1e1;
+    resize: vertical;
+  }
+
+  .rating-control {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgba(19, 29, 36, 0.2);
+  }
+
+  .rating-control label {
+    cursor: pointer;
+  }
+
+  .rating-control input[type="radio"] {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+
+  .rating-control .checked i {
+    color: #fd6f60;
+  }
+
+  .submit-review-button {
+    width: 100%;
+    display: block;
+    height: 53px;
+    border-radius: 3px;
+    background-color: #fd6f60;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 49px;
+    outline: none;
+    border: none;
+  }
+
+/*-----------------------------------------------------------------------------*\
+    SEARCH RESERVATIONS
+\*-----------------------------------------------------------------------------*/
+
+.reservation-details-search {
+  margin-top: 30px;
+}
+
+.search-reservation-times {
+  display: block;
+  position: relative;
+}
+
+/*-----------------------------------------------------------------------------*\
+    CONFIRM RESERVATION
+\*-----------------------------------------------------------------------------*/
+
+.confirm-reservation-title {
+  font-size: 36px;
+  font-weight: normal;
+  color: #262626;
+  margin-top: 40px;
+  margin-bottom: 49px;
+  text-align: center;
+}
+
+.reservation-details {
+  position: relative;
+  box-sizing: border-box;
+  padding: 24px 30px 38px;
+  width: 100%;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.1);
+}
+
+  .reservation-details-title {
+    font-size: 20px;
+    font-weight: normal;
+    color: rgba(19, 29, 36, 0.4);
+    margin: 0;
+  }
+
+  .reservation-confirmation-timer {
+    float: right;
+    margin-top: -4px;
+    margin-right: -10px;
+    border-radius: 2px;
+    background-color: rgba(253, 111, 96, 0.4);
+    font-size: 14px;
+    font-weight: normal;
+    color: rgba(38, 38, 38, 0.7);
+    padding: 8px 13px;
+  }
+
+  .reservation-confirmation-timer i {
+    margin-right: 8px;
+  }
+
+  .reservation-image {
+    float: left;
+    width: 130px;
+    height: 113px;
+    margin: 0;
+    margin-right: 40px;
+  }
+
+  .reservation-restaurant-name {
+    font-size: 20px;
+    font-weight: normal;
+    color: #fd6f60;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+    .reservation-restaurant-name span {
+      opacity: 0.4;
+      font-size: 14px;
+      font-weight: 600;
+      color: #171717;
+      text-transform: uppercase;
+    }
+
+  .reservation-details-info {
+    font-size: 20px;
+    font-weight: normal;
+    color: #131d24;
+  }
+
+    .reservation-details-info > span {
+      display: inline-block;
+      margin: 0;
+      margin-right: 50px;
+    }
+
+      .reservation-details-info > span > span {
+        opacity: 0.4;
+        font-size: 14px;
+        font-weight: 600;
+        color: #171717;
+        text-transform: uppercase;
+      }
+
+.confirm-reservation-button {
+  outline: none;
+  border: none;
+  width: 300px;
+  height: 56px;
+  border-radius: 3px;
+  background-color: #fd6f60;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  margin-top: 150px;
+  margin-bottom: 40px;
+}
+
+.confirm-reservation-button:disabled {
+  cursor: default;
+  background-color: #eee;
+  color: #131d24;
+}
+
+.disclaimer {
+  font-size: 14px;
+  font-weight: normal;
+  color: #878787;
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+
+/*-----------------------------------------------------------------------------*\
+      USER / ADMIN PAGE
+\*-----------------------------------------------------------------------------*/
+
+.user-page-bar {
+  position: relative;
+  box-sizing: border-box;
+  padding: 0;
+  padding-left: 9px;
+  margin: 10px 0 30px;
+  min-height: 46px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+  .user-page-bar-navigation {
+    display: block;
+    margin: 0;
+    padding: 0;
+    height: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+  }
+
+    .user-page-bar-navigation.navigation-left {
+      float: left;
+    }
+
+    .user-page-bar-navigation.navigation-right {
+      float: right;
+    }
+
+    .user-page-bar-navigation-item {
+      display: inline-block;
+      height: 46px;
+      margin: 0 5px;
+      color: rgba(30, 30, 30, 0.4);
+      cursor: pointer;
+    }
+
+      .user-page-bar-navigation-item.logout {
+        color: #fff;
+        margin: 0;
+        padding: 12px 25px 14px;
+        text-decoration: none;
+        background-color: tomato;
+      }
+
+      .user-page-bar-navigation-item a {
+        display: block;
+        padding: 12px 10px 14px;
+        text-decoration: none;
+        color: inherit;
+      }
+
+.reservation-list {
+  margin-bottom: 40px;
+}
+
+.reservation-list:last-of-type {
+  margin-bottom: 0;
+}
+
+.user-reservation {
+  display: block;
+  width: 100%;
+  padding: 5px 0;
+  border-bottom: 1px solid #e6e8eb;
+}
+
+.user-reservation:last-of-type {
+  border-bottom: none;
+}
+
+  .user-reservation span {
+    display: block;
+  }
+
+  .user-reservation span:first-child {
+    opacity: 0.4;
+    font-size: 14px;
+    font-weight: 600;
+    color: #171717;
+    text-transform: uppercase;
+  }
+
+  .user-reservation span:last-child {
+    font-size: 20px;
+    font-weight: normal;
+    color: #131d24;
+  }
+
+.admin-statistic-link,
+.admin-statistic-link:hover {
+    text-decoration: none;
+    color: #131d24;
+}
+
+.admin-statistic {
+  position: relative;
+  width: 100%;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+  .admin-statistic h3 {
+    font-size: 48px;
+    font-weight: normal;
+    text-align: center;
+    color: #131d24;
+    margin: 0;
+    padding: 60px 0 0;
+  }
+
+  .admin-statistic p {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+    padding: 0 0 80px;
+  }
+
+  .admin-statistic a {
+    display: block;
+    text-decoration: none;
+    width: 150px;
+    left: 50%;
+    margin-left: -75px;
+    bottom: -15px;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 6px 22px 8px;
+    color: #fff;
+    border-radius: 2px;
+    background-color: #fd6f60;
+  }
+
+.admin-tabs-container:after {
+  content: '';
+  display: block;
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  clear: both;
+}
+
+  .admin-tabs {
+    display: block;
+    float: left;
+    border-radius: 3px;
+    background-color: #ffffff;
+    border: solid 1px #e6e8eb;
+    border-bottom: none;
+    margin: 0;
+    padding: 0;
+  }
+
+    .admin-tabs li {
+      position: relative;
+      display: inline-block;
+    }
+
+      .admin-tabs li a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 9px 12px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(30, 30, 30, 0.4);
+      }
+
+        .admin-tabs li.active a {
+          color: #fd6f60;
+        }
+
+        .admin-tabs li:first-child a {
+          padding-left: 24px;
+        }
+
+        .admin-tabs li:last-child a {
+          padding-right: 24px;
+        }
+
+.admin-form {
+  position: relative;
+  z-index: 20;
+  box-sizing: border-box;
+  padding: 30px 40px 60px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  border: solid 1px #e6e8eb;
+  margin-bottom: 20px;
+}
+
+  .admin-from-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e1e1e;
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+
+  .admin-form::after {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 19;
+    box-sizing: border-box;
+    width: -webkit-calc(100% - 10px);
+    width: -moz-calc(100% - 10px);
+    width: -o-calc(100% - 10px);
+    width: -ms-calc(100% - 10px);
+    width: calc(100% - 10px);
+    margin: 0 5px;
+    height: 6px;
+    bottom: -6px;
+    left: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-color: #fbfbfb;
+    border: solid 1px #e6e8eb;
+  }
+
+  .admin-form-object-list {
+    margin: 0;
+    padding: 0;
+    display: block;
+    position: relative;
+    width: 100%;
+  }
+
+    .admin-form-object-list-item {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 47px;
+      padding: 0 10px;
+      box-sizing: border-box;
+      border-bottom: 1px solid #e6e8eb;
+    }
+
+    .reservation-list-item {
+      padding: 13px 20px;
+    }
+
+    .admin-form-object-list-item:hover {
+      background-color: rgba(19, 29, 36, 0.05);
+    }
+
+    .admin-form-object-list-item::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      visibility: hidden;
+      clear: both;
+    }
+
+    .admin-form-object-list-item:last-child {
+      border-bottom: none;
+    }
+
+    .admin-form-object-list-item a {
+      color: #333;
+      text-decoration: none;
+    }
+
+      .admin-form-object-list-item h3 {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        position: absolute;
+        z-index: 21;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 15px 10px;
+        font-size: 16px;
+      }
+
+      .list-item-button {
+        position: relative;
+        z-index: 22;
+        visibility: hidden;
+        margin: 8px;
+        margin-right: 0;
+        float: right;
+        background-color: rgba(19, 29, 36, 0.4);
+      }
+
+      .admin-form-object-list-item:hover .list-item-button {
+        visibility: visible;
+      }
+
+      .admin-form-object-list-item .list-item-button,
+      .admin-from-new-button {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #ffffff;
+        border-radius: 3px;
+        color: #fff;
+        text-decoration: none;
+        padding: 5px 15px;
+      }
+
+      .admin-from-new-button {
+        outline: none;
+        border: none;
+        position: absolute;
+        top: 30px;
+        right: 40px;
+        background-color: #fd6f60;
+        text-decoration: none;
+      }
+
+      .top-right-position {
+        position: absolute;
+        top: 30px;
+        right: 40px;
+      }
+
+      .admin-from-new-button.grey {
+        background-color: rgba(19, 29, 36, 0.4);
+      }
+
+      .admin-from-new-button:hover {
+        text-decoration: none;
+        color: #fff;
+      }
+
+  .admin-form-image-profile {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    margin-top: -15px;
+    margin-bottom: 10px;
+  }
+
+  .admin-form-image-cover {
+    position: relative;
+    height: 160px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    margin-top: -15px;
+    margin-bottom: 10px;
+  }
+
+.nav-pills a {
+  color: rgba(19, 29, 36, 0.4);
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  padding: 5px 15px !important;
+}
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+  background-color: #fd6f60;
+}
+
+.menu-content {
+  margin-top: 30px;
+}
+
+.dish-price,
+.dish-name {
+  font-size: 18px;
+  font-weight: normal;
+  color: #1a1a1a;
+  margin: 0;
+  background-color: #fff;
+  float: left;
+}
+
+.dish-price {
+  float: right;
+  font-size: 14px;
+  height: 22px;
+}
+
+.dish-description {
+  margin: 0;
+  color: #1a1a1a;
+  opacity: 0.4;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.menu-price-sign {
+  opacity: 0.4;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  color: #1e1e1e;
+  margin-right: 5px;
+}
+
+.menu-item {
+  margin-top: 10px;
+  background-image: url('/assets/images/dot.png');
+}
+
+.menu-input {
+  height: 40px;
+  border-radius: 3px;
+  border: solid 1px #e6e8eb;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: italic;
+  margin: 0 20px 16px 0;
+  color: #333;
+}
+
+.menu-add-button {
+  outline: none;
+  border: none;
+  background-color: #fd6f60;
+  color: #fff;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+.menu-enum {
+  text-align: center;
+  opacity: 0.4;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  color: #1e1e1e;
+}
+
+#coverImageUpload,
+#profileImageUpload {
+  visibility: hidden;
+}
+
+.image-upload-label {
+  text-align: center;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(19, 29, 36, 0.4);
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  padding-top: 45px;
+}
+
+  .image-upload-label .fa {
+    display: block;
+    font-size: 42px;
+  }
+
+.image-upload-progress {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.table-box {
+  display: block;
+  color: #1e1e1e;
+  font-size: 16px;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+  .table-box span {
+    display: inline-block;
+    min-width: 25px;
+    margin-right: 5px;
+    opacity: 0.4;
+    font-weight: normal;
+    font-size: 12px;
+  }
+
+  .table-box input {
+    border-radius: 3px;
+    border: solid 1px #e6e8eb;
+    text-align: center;
+  }
+
+  .menu-content button,
+  .table-box button {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: tomato;
+    margin-left: 5px;
+  }
+
+#pricerange-control {
+  margin-top: -15px;
+}
+
+#pricerange-control input[type="radio"] {
+  visibility: hidden;;
+  width: 0;
+  height: 0;
+}
+
+#pricerange-control label {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#pricerange-control .empty {
+  color: rgba(19, 29, 36, 0.2);
+}
+
+/*-----------------------------------------------------------------------------*\
+      PAGINATION
+\*-----------------------------------------------------------------------------*/
+
+.pagination-container {
+  display: block;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  height: 32px;
+  margin-top: 80px;
+  margin-bottom: 40px;
+  padding: 0;
+}
+
+  .pagination-container.small-margins {
+    margin-top: 60px;
+    margin-bottom: 0;
+  }
+
+  .pagination-container li {
+    display: inline-block;
+    height: inherit;
+    line-height: 30px;
+    position: relative;
+  }
+
+    .pagination-container li a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      color: inherit !important;
+    }
+
+  .pagination-step {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgba(46, 57, 63, 0.6);
+    margin: 0 37px;
+    visibility: hidden;
+  }
+
+    .pagination-step.visible {
+      visibility: visible;
+    }
+
+  .pagination-dots {
+    font-size: 13px;
+    color: rgba(46, 57, 63, 0.6);
+    margin: 0 6px;
+  }
+
+  .pagination-page {
+    width: 32px;
+    height: inherit;
+    border-radius: 3px;
+    border: solid 1px #eaeaee;
+    background-color: #fff;
+    color: rgba(46, 57, 63, 0.6);
+    text-align: center;
+    margin: 0 6px;
+  }
+
+  .pagination-page-current {
+    background-color: #fd6f60;
+    color: #fff;
+    border: none;
+  }
+
+/*-----------------------------------------------------------------------------*\
+      FOOTER
+\*-----------------------------------------------------------------------------*/
+
+.footer-list {
+  position: relative;
+  display: block;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.footer-list:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+@media (min-width: 768px) {
+  .footer-list-right {
+    float: right;
+  }
+}
+
+
+  .footer-list li {
+    float: left;
+    display: block;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0 10px;
+  }
+
+  .footer-list-grey li {
+    opacity: 0.4;
+  }
+
+.footer-copy {
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  opacity: 0.4;
+  padding: 0 10px;
+}
+
+
+.log-list {
+  display: block;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+  .log-item {
+    display: block;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 12px;
+    min-height: 47px;
+    font-size: 14px;
+    font-weight: 400;
+    border-bottom: 1px solid #e6e8eb;
+  }
+
+  .log-item:last-child {
+    border-bottom: none;
+  }
+
+    .log-meta {
+      display: block;
+      float: left;
+      height: 100%;
+    }
+
+      .log-type,
+      .timestamp,
+      .stacktrace {
+        display: inline-block;
+        background-color: #eee;
+        border-radius: 3px;
+        padding: 2px 10px;
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 400;
+        margin-right: 10px;
+      }
+
+      .stacktrace {
+        cursor: pointer;
+      }
+
+        .log-type.Error   { background-color: #DD2C00; color: #fff; }
+        .log-type.Warning { background-color: #FFC107; }
+        .log-type.Post,
+        .log-type.Create  { background-color: #DCEDC8; }
+        .log-type.Edit    { background-color: #F0F4C3; }
+        .log-type.Delete  { background-color: #FBE9E7; }
+
+    .log-message {
+    }

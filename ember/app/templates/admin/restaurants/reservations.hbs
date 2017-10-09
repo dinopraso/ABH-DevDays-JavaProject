@@ -1,0 +1,15 @@
+<div class="admin-form">
+  <h1 class="admin-from-title">Reservations for {{model.restaurant.name}}</h1>
+  {{input type="date" value=date class="top-right-position"}}
+  <ul class="admin-form-object-list">
+    {{#if model.reservations}}
+    {{#each model.reservations as |reservation|}}
+    <li class="admin-form-object-list-item reservation-list-item">
+      Reservation for {{reservation.table.numberOfChairs}}, Starting on {{reservation.time}}
+    </li>
+    {{/each}}
+    {{else}}
+    No Reservations for this day.
+    {{/if}}
+  </ul>
+</div>

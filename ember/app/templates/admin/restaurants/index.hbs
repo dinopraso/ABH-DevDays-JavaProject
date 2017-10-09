@@ -1,0 +1,15 @@
+<div class="admin-form">
+  <h1 class="admin-from-title">All Restaurants</h1>
+  {{#link-to 'admin.restaurants.new' class="admin-from-new-button"}}Add new Restaurant{{/link-to}}
+  <ul class="admin-form-object-list">
+    {{#each model.restaurants.model as |restaurant|}}
+    <li class="admin-form-object-list-item">
+      {{#link-to 'restaurant' restaurant.id}}<h3>{{restaurant.name}}</h3>{{/link-to}}
+      {{#link-to 'admin.restaurants.delete' restaurant.id class="list-item-button"}}Delete{{/link-to}}
+      {{#link-to 'admin.restaurants.edit' restaurant.id class="list-item-button"}}Edit{{/link-to}}
+      {{#link-to 'admin.restaurants.reservations' restaurant.id class="list-item-button"}}Reservations{{/link-to}}
+    </li>
+    {{/each}}
+  </ul>
+  {{page-numbers currentPage=model.restaurants.pageNumber maxPages=model.restaurants.numberOfPages smallMargins=true}}
+</div>

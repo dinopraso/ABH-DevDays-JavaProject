@@ -1,0 +1,251 @@
+<div class="admin-tabs-container">
+  <ul class="admin-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">Basic Details</a></li>
+    <li role="presentation"><a href="#cuisine" aria-controls="cuisine" role="tab" data-toggle="tab">Cuisines</a></li>
+    <li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">Tables</a></li>
+    <li role="presentation"><a href="#menu" aria-controls="menu" role="tab" data-toggle="tab">Menu</a></li>
+  </ul>
+</div>
+
+
+<form {{action 'submitRestaurant' on='submit'}}>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="basics">
+      <div class="admin-form">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <h1 class="admin-from-title">Add Logo</h1>
+                <div class="admin-form-image-profile" style={{profileImageStyle}}>
+                  <label class="image-upload-label" for="profileImageUpload">
+                    {{#if uploadProgressProfile}}
+                    <p class="image-upload-progress">
+                      Uploading: {{uploadProgressProfile}}%
+                    </p>
+                    {{/if}}
+                    {{fa-icon "fa-cloud-upload"}}Upload Logo
+                  </label>
+                  {{file-upload id="profileImageUpload" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="profile" progress=uploadProgressProfile onFinishedUpload=(action 'uploadedImage')}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <h1 class="admin-from-title">Price Range</h1>
+                <div id="pricerange-control">
+                  {{#radio-button value=1 groupValue=model.restaurant.priceRange changed="priceRangeChanged"}}{{fa-icon "usd" class=isRangeOne}}{{/radio-button}}
+                  {{#radio-button value=2 groupValue=model.restaurant.priceRange changed="priceRangeChanged"}}{{fa-icon "usd" class=isRangeTwo}}{{/radio-button}}
+                  {{#radio-button value=3 groupValue=model.restaurant.priceRange changed="priceRangeChanged"}}{{fa-icon "usd" class=isRangeThree}}{{/radio-button}}
+                  {{#radio-button value=4 groupValue=model.restaurant.priceRange changed="priceRangeChanged"}}{{fa-icon "usd" class=isRangeFour}}{{/radio-button}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h1 class="admin-from-title">Add Cover Photo</h1>
+            <div class="admin-form-image-cover" style={{coverImageStyle}}>
+              <label class="image-upload-label" for="coverImageUpload">
+                {{#if uploadProgressCover}}
+                  <p class="image-upload-progress">
+                    Uploading: {{uploadProgressCover}}%
+                  </p>
+                {{/if}}
+                {{fa-icon "fa-cloud-upload"}}Upload Cover Photo
+              </label>
+              {{file-upload id="coverImageUpload" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="cover" progress=uploadProgressCover onFinishedUpload=(action 'uploadedImage')}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            {{input class='form-input' type='text' placeholder='Restaurant Name' value=model.restaurant.name required="required"}}
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <select class='form-input' id="city-select" {{action 'setCity' on='change'}}>
+              {{#each model.cities as |city|}}
+              <option value={{city.id}} selected={{eq model.restaurant.city.id city.id}}>{{city.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            {{textarea class="form-input" type="text" placeholder="Description" value=model.restaurant.description required="required"}}
+          </div>
+          <div class="col-xs-12 col-sm-6 small-map">
+            {{google-map marker=marker polygon=polygon defaultMerkerPosition=defaultMerkerPosition bounds=model.restaurant.city.bounds markerLat=model.restaurant.latitude markerLng=model.restaurant.longitude editableMarker=true}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            {{input class='form-input' type='text' placeholder='Address' value=model.restaurant.address}}
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            {{input class='form-input' type='text' placeholder='Phone' value=model.restaurant.phone}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            {{input class='form-input' type='time' value=model.restaurant.openTime}}
+            {{input class='form-input' type='time' value=model.restaurant.closeTime}}
+          </div>
+          <div class="col-xs-12 col-sm-6">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="cuisine">
+      <div class="admin-form">
+
+        {{#multiselect-checkboxes class="hidden-chackboxes" options=cuisinePrimitives selection=selectedCuisinePrimitives as |cuisine isSelected|}}
+          <li>
+            <label class="{{if isSelected 'active'}}">
+              {{input type="checkbox" checked=isSelected}}
+              {{cuisine}}
+            </label>
+          </li>
+        {{/multiselect-checkboxes}}
+
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="tables">
+      <div class="admin-form">
+
+        <h1 class="admin-from-title">Tables</h1>
+
+        <button {{action 'addTable'}} class="admin-from-new-button grey">Add Table</button>
+
+        <div class="row">
+          {{#each model.restaurant.tables as |table index|}}
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="table-box">
+              <span>{{restaurant-table-enum index}}.</span>Table for {{input type="number" min=1 max=8 value=table.numberOfChairs}} People
+              <button {{action 'removeTable' table.id}}>{{fa-icon 'trash'}}</button>
+            </label>
+          </div>
+          {{/each}}
+        </div>
+
+
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="menu">
+      <div class="admin-form">
+
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#breakfast" data-toggle="tab">Breakfast</a></li>
+              <li><a href="#lunch" data-toggle="tab">Lunch</a></li>
+              <li><a href="#dinner" data-toggle="tab">Dinner</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row menu-content">
+          <div class="col-xs-12">
+            <div class="tab-content">
+              <div class="tab-pane active" id="breakfast">
+                {{#each model.restaurant.menu.breakfast as |item index|}}
+                <div class="row">
+                  <div class="col-xs-1 menu-enum">
+                    {{restaurant-table-enum index}}.
+                  </div>
+                  <div class="col-xs-11">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.name placeholder="Name" class="menu-input"}}
+                        <span class="menu-price-sign">$</span>{{input type="number" value=item.price placeholder="Price" class="menu-input" step="0.01" min=0}}<button {{action 'removeBreakfastItem' item}}>{{fa-icon 'trash'}}</button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.description placeholder="Description" class="menu-input"}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+                <button class="menu-add-button" {{action 'addMenuBreakfast'}}>Add Item</button>
+              </div>
+              <div class="tab-pane" id="lunch">
+                {{#each model.restaurant.menu.lunch as |item index|}}
+                <div class="row">
+                  <div class="col-xs-1 menu-enum">
+                    {{restaurant-table-enum index}}.
+                  </div>
+                  <div class="col-xs-11">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.name placeholder="Name" class="menu-input"}}
+                        <span class="menu-price-sign">$</span>{{input type="number" value=item.price placeholder="Price" class="menu-input" step="0.01" min=0}}<button {{action 'removeLunchItem' item}}>{{fa-icon 'trash'}}</button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.description placeholder="Description" class="menu-input"}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+                <button class="menu-add-button" {{action 'addMenuLunch'}}>Add Item</button>
+              </div>
+              <div class="tab-pane" id="dinner">
+                {{#each model.restaurant.menu.dinner as |item index|}}
+                <div class="row">
+                  <div class="col-xs-1 menu-enum">
+                    {{restaurant-table-enum index}}.
+                  </div>
+                  <div class="col-xs-11">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.name placeholder="Name" class="menu-input"}}
+                        <span class="menu-price-sign">$</span>{{input type="number" value=item.price placeholder="Price" class="menu-input" step="0.01" min=0}}<button {{action 'removeDinnerItem' item}}>{{fa-icon 'trash'}}</button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.description placeholder="Description" class="menu-input"}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+                <button class="menu-add-button" {{action 'addMenuDinner'}}>Add Item</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</form>

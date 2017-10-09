@@ -1,0 +1,40 @@
+<nav class="navbar navbar-default">
+  <div class="container nav-container {{if type 'white-text' 'grey-text'}}">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      {{#link-to 'index' class="navbar-brand"}}Restaurants{{/link-to}}
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-link-custom">{{#link-to 'index'}}Home{{/link-to}}</li>
+        <li class="nav-link-custom">{{#link-to 'restaurants'}}Restaurants{{/link-to}}</li>
+        {{#if user.isLoggedIn}}
+          <li class="nav-link-custom">
+            {{#if user.object.isAdmin}}
+            {{#link-to 'admin'}}Admin{{!-- {{user.object.name}} --}}{{/link-to}}
+            {{else}}
+            {{#link-to 'user'}}{{user.object.name}}{{/link-to}}
+            {{/if}}
+          </li>
+        {{else}}
+          <li class="nav-link-custom">{{#link-to 'login'}}Login{{/link-to}}</li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+  {{#if type}}
+  <div class="navigation-background navigation-background-{{type}}">
+    <div class="navigation-background-image" style={{navigationStyle}}>
+    </div>
+    <div class="navigation-additional-content">
+      {{yield}}
+    </div>
+  </div>
+  {{/if}}
+</nav>

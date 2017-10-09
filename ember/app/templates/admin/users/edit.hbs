@@ -1,0 +1,16 @@
+<form class="admin-form" {{action 'editUser' on='submit'}}>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="admin-from-title">Edit {{model.user.name}}</h1>
+    </div>
+    <div class="col-xs-12">
+      Is Admin: {{input type="checkbox" checked=model.user.isAdmin}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12" style="text-align: right">
+      <button class="form-button form-button-small form-button-grey">Cancel</button>
+      <button class="form-button form-button-small" type="submit">Edit User</button>
+    </div>
+  </div>
+</form>

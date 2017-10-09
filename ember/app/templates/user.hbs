@@ -1,0 +1,25 @@
+<div id="wrap">
+  {{navigation-wrapper user=model.user}}
+  <div id="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="user-page-bar">
+            <ul class="user-page-bar-navigation navigation-left">
+              <li class="user-page-bar-navigation-item">{{#link-to 'user.index'}}Reservations{{/link-to}}</li>
+              {{!-- <li class="user-page-bar-navigation-item">{{#link-to 'user.settings'}}Settings{{/link-to}}</li> --}}
+            </ul>
+            <ul class="user-page-bar-navigation navigation-right">
+              <li class="user-page-bar-navigation-item logout" {{action 'logout'}}> Logout</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          {{outlet}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

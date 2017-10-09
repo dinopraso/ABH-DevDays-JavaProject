@@ -1,0 +1,28 @@
+<div id="wrap">
+  {{navigation-wrapper user=model.user}}
+  <div id="main">
+    <div class="container">
+      {{#each model.restaurants.model as |restaurant|}}
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="reservation-details reservation-details-search">
+            <div class="row">
+              <div class="col-xs-6">
+                <img class="reservation-image" src="{{restaurant.profileImagePath}}" />
+                <h1 class="reservation-restaurant-name">
+                  <span>Restaurant</span><br>
+                  {{restaurant.name}}
+                </h1>
+              </div>
+              <div class="col-xs-6">
+                {{search-reservation-display id=restaurant.id params=model.params class="search-reservation-times" onReserve=(action 'reserve')}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+      {{page-numbers currentPage=model.restaurants.pageNumber maxPages=model.restaurants.numberOfPages}}
+    </div>
+  </div>
+</div>

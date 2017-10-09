@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-xs-12">
+
+    <ul class="pagination-container {{if smallMargins 'small-margins'}}">
+      <li class="pagination-step {{if canGoBack 'visible'}}">{{#link-to (query-params page=previousPage)}}Previous{{/link-to}}</li>
+      {{#if canGoBack}}
+        {{#each previousPages as |page|}}
+          {{#if page.isDots}}
+            <li class="pagination-dots">...</li>
+          {{else}}
+            <li class="pagination-page">{{#link-to (query-params page=page.pageNumber)}}{{page.pageNumber}}{{/link-to}}</li>
+          {{/if}}
+        {{/each}}
+      {{/if}}
+
+      <li class="pagination-page pagination-page-current">{{#link-to (query-params page=currentPage)}}{{currentPage}}{{/link-to}}</li>
+
+      {{#if canGoFoward}}
+        {{#each nextPages as |page|}}
+          {{#if page.isDots}}
+            <li class="pagination-dots">...</li>
+          {{else}}
+            <li class="pagination-page">{{#link-to (query-params page=page.pageNumber)}}{{page.pageNumber}}{{/link-to}}</li>
+          {{/if}}
+        {{/each}}
+      {{/if}}
+      <li class="pagination-step {{if canGoFoward 'visible'}}">{{#link-to (query-params page=nextPage)}}Next{{/link-to}}</li>
+    </ul>
+  </div>
+</div>

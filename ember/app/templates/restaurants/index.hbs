@@ -1,0 +1,97 @@
+<div id="wrap">
+  {{navigation-wrapper user=model.user}}
+  <div id="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <form class="search-box restaurant-filter-box">
+            <label for="search">{{fa-icon "search"}}</label>
+            {{input id='search' class="search-textbox restaurant_search_textbox" placeholder='Search for a restaurant...' value=nameFilter}}
+            <button type="button" class="show-popup-button" {{action 'showSort'}}>Sort by {{fa-icon "chevron-down"}}</button>
+            <button type="button" class="show-popup-button" {{action 'showFilters'}}>Filter by {{fa-icon "chevron-down"}}</button>
+            <div id="searchFilters" class="hidden">
+              <div class="filter-popup-arrow"></div>
+              <div class="filter-popup-content">
+                <div id="price-filter-control">
+                  <h5>Price</h5>
+                  {{#radio-button value=0 groupValue=priceFilter changed="priceFilterChanged"}}{{fa-icon "times"}}{{/radio-button}}
+                  {{#radio-button value=1 groupValue=priceFilter changed="priceFilterChanged"}}{{fa-icon "usd"}}{{/radio-button}}
+                  {{#radio-button value=2 groupValue=priceFilter changed="priceFilterChanged"}}{{fa-icon "usd"}}{{/radio-button}}
+                  {{#radio-button value=3 groupValue=priceFilter changed="priceFilterChanged"}}{{fa-icon "usd"}}{{/radio-button}}
+                  {{#radio-button value=4 groupValue=priceFilter changed="priceFilterChanged"}}{{fa-icon "usd"}}{{/radio-button}}
+                </div>
+                <div id="rating-filter-control">
+                  <h5>Rating</h5>
+                  {{#radio-button value=0 groupValue=ratingFilter changed="ratingFilterChanged"}}{{fa-icon "times"}}{{/radio-button}}
+                  {{#radio-button value=1 groupValue=ratingFilter changed="ratingFilterChanged"}}{{fa-icon "star"}}{{/radio-button}}
+                  {{#radio-button value=2 groupValue=ratingFilter changed="ratingFilterChanged"}}{{fa-icon "star"}}{{/radio-button}}
+                  {{#radio-button value=3 groupValue=ratingFilter changed="ratingFilterChanged"}}{{fa-icon "star"}}{{/radio-button}}
+                  {{#radio-button value=4 groupValue=ratingFilter changed="ratingFilterChanged"}}{{fa-icon "star"}}{{/radio-button}}
+                  {{#radio-button value=5 groupValue=ratingFilter changed="ratingFilterChanged"}}{{fa-icon "star"}}{{/radio-button}}
+                </div>
+                <hr>
+                <h5>Cousine</h5>
+                {{#multiselect-checkboxes options=model.cuisines selection=cuisineFilter as |cuisine isSelected|}}
+                  <li>
+                    <label class="{{if isSelected 'active'}}">
+                      {{input type="checkbox" checked=isSelected}}
+                      {{cuisine}}
+                    </label>
+                  </li>
+                {{/multiselect-checkboxes}}
+              </div>
+            </div>
+            <div id="searchSort" class="hidden">
+              <div class="filter-popup-arrow"></div>
+              <div class="filter-popup-content">
+                <div class="sort-by-control">
+                  {{#radio-button value="name" groupValue=sortBy}}Name{{/radio-button}}
+                  {{#radio-button value="price" groupValue=sortBy}}Price{{/radio-button}}
+                  {{#radio-button value="rating" groupValue=sortBy}}Rating{{/radio-button}}
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row currentFilterBubbleRow">
+        <div class="col-xs-12">
+          {{#if nameFilter}}
+          <div class="currentFilterBubble">
+            <span>Name:</span>{{nameFilter}}<span {{action 'removeNameFilter'}}>{{fa-icon 'times-circle'}}</span>
+          </div>
+          {{/if}}
+          {{#if priceFilter}}
+          <div class="currentFilterBubble">
+            <span>Price:</span>{{priceFilter}}<span {{action 'removePriceFilter'}}>{{fa-icon 'times-circle'}}</span>
+          </div>
+          {{/if}}
+          {{#if ratingFilter}}
+          <div class="currentFilterBubble">
+            <span>Rating:</span>{{ratingFilter}}<span {{action 'removeRatingFilter'}}>{{fa-icon 'times-circle'}}</span>
+          </div>
+          {{/if}}
+          {{#if cuisineFilter}}
+          <div class="currentFilterBubble">
+            <span>Cuisine:</span>{{cuisineFilter}}<span {{action 'removeCuisineFilter'}}>{{fa-icon 'times-circle'}}</span>
+          </div>
+          {{/if}}
+          {{#if city}}
+          <div class="currentFilterBubble">
+            <span>City:</span>{{find-city-by-id model.popularLocations city}}<span {{action 'removeCityFilter'}}>{{fa-icon 'times-circle'}}</span>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+      <div class="row">
+        {{#each model.response.model as |restaurant|}}
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          {{restaurant-tile data=restaurant buttonStyle="white"}}
+        </div>
+        {{/each}}
+      </div>
+      {{page-numbers currentPage=model.response.pageNumber maxPages=model.response.numberOfPages}}
+    </div>
+    {{popular-locations locations=model.popularLocations}}
+  </div>
+</div>

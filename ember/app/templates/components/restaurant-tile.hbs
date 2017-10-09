@@ -1,0 +1,16 @@
+<div class="restaurant-tile">
+  {{#link-to "restaurant" data.id}}
+    <div class="restaurant-tile-image" style={{tileStyle}}></div>
+    <h3 class="restaurant-tile-name">{{data.name}}</h3>
+    <p class="restaurant-tile-rating">
+      {{star-score averageRating=data.averageRating}}
+      <span class="restaurant-tile-ratecount">({{data.numberOfRatings}})</span>
+      {{price-range priceRange=data.priceRange class="restaurant-tile-pricernage"}}
+    </p>
+    <hr class="restaurant-tile-separator">
+    <p class="restaurant-tile-foodtypes">
+      {{#each data.cuisines as |cuisine|}}<span>{{cuisine.name}}</span>{{/each}}
+    </p>
+    <button class="reserve-now-button {{buttonStyle}}-button" type="button">Reserve Now</button>
+  {{/link-to}}
+</div>

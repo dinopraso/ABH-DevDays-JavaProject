@@ -1,0 +1,73 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# USER MANAGEMENT ROUTES -----------------------------------------------------------------------------------------------
+
+GET     /api/v1/getCurrentUser                              controllers.UserController.getCurrentUser
+
+POST    /api/v1/login                                       controllers.UserController.login
+POST    /api/v1/logout                                      controllers.UserController.logout
+POST    /api/v1/register                                    controllers.UserController.register
+
+GET     /api/v1/admin/getAllUsers                           controllers.UserController.getAllUsers
+GET     /api/v1/admin/getUser/:id                           controllers.UserController.getUser(id: String)
+PATCH   /api/v1/admin/editUser                              controllers.UserController.editUser
+DELETE  /api/v1/admin/deleteUser/:id                        controllers.UserController.deleteUser(id: String)
+
+# RESTAURANT MANAGEMENT ROUTES -----------------------------------------------------------------------------------------
+
+GET     /api/v1/getRestaurant/:id                           controllers.RestaurantController.getRestaurant(id: String)
+POST    /api/v1/admin/createRestaurant                      controllers.RestaurantController.createRestaurant
+PUT     /api/v1/admin/editRestaurant                        controllers.RestaurantController.editRestaurant
+DELETE  /api/v1/admin/deleteRestaurant/:id                  controllers.RestaurantController.deleteRestaurant(id: String)
+
+PATCH   /api/v1/admin/updatePicture                         controllers.RestaurantController.updatePicture
+
+GET     /api/v1/getAllRestaurants                           controllers.RestaurantController.getAllRestaurants
+GET     /api/v1/getNumberOfRestaurants                      controllers.RestaurantController.getNumberOfRestaurants
+GET     /api/v1/getNearbyRestaurants/:latitude/:longitude   controllers.RestaurantController.getNearbyRestaurants(latitude: Float,longitude: Float)
+GET     /api/v1/getPopularRestaurants                       controllers.RestaurantController.getPopularRestaurants
+GET     /api/v1/getPopularLocations                         controllers.RestaurantController.getPopularLocations
+
+POST    /api/v1/postReview                                  controllers.RestaurantController.postReview
+
+# RESTAURANT RESERVATION MANAGEMENT ROUTES -----------------------------------------------------------------------------
+
+GET     /api/v1/getReservation/:id                          controllers.ReservationController.getReservation(id: String)
+POST    /api/v1/postReservationInquiry                      controllers.ReservationController.postReservationInquiry
+POST    /api/v1/postReservation                             controllers.ReservationController.postReservation
+POST    /api/v1/confirmReservation                          controllers.ReservationController.confirmReservation
+
+GET     /api/v1/getMyReservations                           controllers.ReservationController.getMyReservations
+GET     /api/v1/admin/getAllReservations/:rId/:date         controllers.ReservationController.getAllReservations(rId: String, date: String)
+
+# CUISINE MANAGEMENT ROUTES --------------------------------------------------------------------------------------------
+
+GET     /api/v1/getCuisine/:id                              controllers.CuisineController.getCuisine(id: String)
+POST    /api/v1/admin/createCuisine                         controllers.CuisineController.createCuisine
+PUT     /api/v1/admin/editCuisine                           controllers.CuisineController.editCuisine
+DELETE  /api/v1/admin/deleteCuisine/:id                     controllers.CuisineController.deleteCuisine(id: String)
+
+GET     /api/v1/getAllCuisines                              controllers.CuisineController.getAllCuisines
+
+# ---------------------------------------------------------------------------------------------------------------------- TO BE DEPRECATED
+GET     /api/v1/getAllCuisinesAsString                      controllers.CuisineController.getAllCuisinesAsString
+
+# CITY MANAGEMENT ROUTES -----------------------------------------------------------------------------------------------
+
+GET     /api/v1/getCity/:id                                 controllers.CityController.getCity(id: String)
+POST    /api/v1/admin/createCity                            controllers.CityController.createCity
+PUT     /api/v1/admin/editCity                              controllers.CityController.editCity
+DELETE  /api/v1/admin/deleteCity/:id                        controllers.CityController.deleteCity(id: String)
+
+GET     /api/v1/getAllCities                                controllers.CityController.getAllCities
+
+# ADMINISTRATOR MANAGEMENT ROUTES --------------------------------------------------------------------------------------
+
+# EMBER PASSTHROUGH ROUTES ---------------------------------------------------------------------------------------------
+
+GET     /assets/*file                                       controllers.Assets.at(path="/public/assets", file)
+GET     /fonts/*file                                        controllers.Assets.at(path="/public/fonts", file)
+GET     /                                                   controllers.EmberController.index(slug="")
+GET     /*slug                                              controllers.EmberController.index(slug)

@@ -1,0 +1,13 @@
+<form class="admin-form" {{action 'submitCuisine' on='submit'}}>
+  <div class="row">
+    <div class="col-xs-12">
+      {{input class='form-input' type="text" placeholder="Name" value=model.cuisine.name}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12" style="text-align: right">
+      {{#link-to 'admin.cuisines' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+      <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Cuisine</button>
+    </div>
+  </div>
+</form>
