@@ -7,7 +7,7 @@ The purpose of this repository is to allow people to practice their Java and Jav
 You need to have a running PostgreSQL server, with an empty database.
 On it, you will need to run the following two commands before starting the application for the first time:
 
-`CREATE EXTENSION IF NOT EXISTS pgcrypto;`
+`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
 
 `CREATE EXTENSION IF NOT EXISTS postgis;`
 
