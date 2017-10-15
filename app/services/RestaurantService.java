@@ -94,6 +94,11 @@ public class RestaurantService extends BaseService {
 			criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
 		}
 
+		if (restaurantFilter.cuisine != null && restaurantFilter.cuisine.size() > 0) {
+			criteria.createCriteria("cuisines")
+				.add(Restrictions.in("name", restaurantFilter.cuisine));
+		}
+
 		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
 		criteria.setProjection(null)
@@ -105,6 +110,9 @@ public class RestaurantService extends BaseService {
 		}
 
 		criteria.addOrder(Order.asc("name"));
+
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
 
 		List<Restaurant> restaurants = criteria.list();
 

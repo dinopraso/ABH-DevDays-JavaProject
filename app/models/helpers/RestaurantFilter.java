@@ -3,6 +3,7 @@ package models.helpers;
 import exceptions.ServiceException;
 
 import java.util.UUID;
+import java.util.List;
 
 /**
  * The type Restaurant filter.
@@ -21,14 +22,22 @@ public class RestaurantFilter {
 	 * The Name.
 	 */
 	public String name;
+
 	/**
 	 * The City id.
 	 */
 	public UUID cityId;
+
 	/**
 	 * The Price.
 	 */
 	public Integer price;
+
+	/**
+	 * The Cuisine.
+	 */
+	public List<String> cuisine;
+
 	/**
 	 * The Sort by.
 	 */
@@ -106,8 +115,19 @@ public class RestaurantFilter {
 	 * @param price the price
 	 * @return the price filter
 	 */
-	public RestaurantFilter setPriceFilter(Integer price) {
+	public RestaurantFilter setPriceFilter(Integer price) throws ServiceException {
 		this.price = price;
+		return this;
+	}
+
+	/**
+	 * Sets cuisine filter.
+	 *
+	 * @param cuisine the cuisine
+	 * @return the cuisine filter
+	 */
+	public RestaurantFilter setCuisineFilter(List<String> cuisine) throws ServiceException {
+		this.cuisine = cuisine;
 		return this;
 	}
 

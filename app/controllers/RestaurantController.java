@@ -11,6 +11,10 @@ import services.RestaurantService;
 
 import javax.inject.Inject;
 import java.util.UUID;
+import java.util.List;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The type Restaurant controller.
@@ -76,12 +80,25 @@ public class RestaurantController extends BaseController {
 	@Transactional(readOnly = true)
 	public Result getAllRestaurants() {
 		String cityFilter = request().getQueryString(CITY_FILTER);
+		String queryString = request().uri();			
+		String cuisineFilter;
+ 		Pattern pattern = Pattern.compile("cuisineFilter=([\\d\\D\\,]*)&");
+    	Matcher matcher = pattern.matcher(queryString);
+
+    	if (matcher.find())   		
+        	cuisineFilter=matcher.group(1);
+        else
+        	cuisineFilter = null;    	
+
+      	List<String> cuisineList = Arrays.asList(cuisineFilter.split("\\s*,\\s*"));
+		
 		return wrapForPublic(() -> this.service.findRestaurantsWithFilter(
 				RestaurantFilter.createFilter()
 						.setPageNumber(getQueryInt(request().getQueryString(PAGE_NUMBER), DEFAULT_PAGE_NUMBER))
 						.setPageSize(getQueryInt(request().getQueryString(PAGE_SIZE), DEFAULT_PAGE_SIZE))
 						.setNameFilter(request().getQueryString(NAME_FILTER))
-						.setPriceFilter(Integer.parseInt(request().getQueryString(PRICE_FILTER)))
+						.setPriceFilter(Integer.parseInt(request().getQueryString(PRICE_FILTER)))						
+						.setCuisineFilter(!StringUtil.isNullOrEmpty(cuisineFilter) ? cuisineList : null)
 						.setCityFilter(!StringUtil.isNullOrEmpty(cityFilter) ? UUID.fromString(cityFilter) : null)
 						.setSort(request().getQueryString(SORT_BY))
 		));
