@@ -112,15 +112,26 @@ public class RestaurantService extends BaseService {
 		criteria.addOrder(Order.asc("name"));
 
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
-
+		
 		List<Restaurant> restaurants = criteria.list();
+		List<Restaurant> tmpList = new ArrayList<>();
+
+		if (restaurantFilter.rating != null && restaurantFilter.rating > 0) {
+			for (Restaurant restaurant: restaurants)
+			{
+				if(restaurant.getAverageRating() >= restaurantFilter.rating-0.5 && restaurant.getAverageRating() < restaurantFilter.rating+0.5)
+					tmpList.add(restaurant);
+			}
+			restaurants = tmpList;
+			numberOfPages =  new Long(restaurants.size()) / restaurantFilter.pageSize;
+		}
 
 		switch (restaurantFilter.sortBy) {
 			case "rating":
 				restaurants.sort((o1, o2) -> o2.getAverageRating().compareTo(o1.getAverageRating()));
 				break;
 		}
+
 
 		return PaginationAdapter.createOutput()
 				.setPageNumber(restaurantFilter.pageNumber)

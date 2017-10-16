@@ -34,6 +34,11 @@ public class RestaurantFilter {
 	public Integer price;
 
 	/**
+	 * The Rating.
+	 */
+	public Double rating;
+
+	/**
 	 * The Cuisine.
 	 */
 	public List<String> cuisine;
@@ -128,6 +133,17 @@ public class RestaurantFilter {
 	 */
 	public RestaurantFilter setCuisineFilter(List<String> cuisine) throws ServiceException {
 		this.cuisine = cuisine;
+		return this;
+	}
+
+	/**
+	 * Sets rating filter.
+	 *
+	 * @param rating the rating
+	 * @return the rating filter
+	 */
+	public RestaurantFilter setRatingFilter(Double rating) throws ServiceException {
+		this.rating = rating;
 		return this;
 	}
 
