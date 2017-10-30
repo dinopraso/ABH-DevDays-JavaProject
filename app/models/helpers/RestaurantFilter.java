@@ -24,7 +24,12 @@ public class RestaurantFilter {
 	/**
 	 * The City id.
 	 */
+	
 	public UUID cityId;
+	/**
+	 * The Price.
+	 */
+	public Integer price;
 	/**
 	 * The Sort by.
 	 */
@@ -94,6 +99,10 @@ public class RestaurantFilter {
 	public RestaurantFilter setCityFilter(UUID cityId) throws ServiceException {
 		this.cityId = cityId;
 		return this;
+	}
+	public RestaurantFilter setPriceFilter(Integer price){
+	    this.price = price;
+	    return this;
 	}
 
 	/**

@@ -89,6 +89,9 @@ public class RestaurantService extends BaseService {
 		if (restaurantFilter.cityId != null) {
 			criteria.add(Restrictions.eq("city.id", restaurantFilter.cityId));
 		}
+		if(restaurantFilter.price !=null && restaurantFilter.price > 0){
+		    criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
+		}
 
 		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
