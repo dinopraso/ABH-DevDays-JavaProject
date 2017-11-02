@@ -405,11 +405,11 @@ public class Restaurant extends BaseModel {
 	 *
 	 * @return the average rating
 	 */
-	public Double getAverageRating() {
+	public Double getAverageRating() {		
 		OptionalDouble average = this.reviews.stream().mapToInt(RestaurantReview::getRating).average();
 		return average.isPresent() ? average.getAsDouble() : 0D;
 	}
-
+	
 	/**
 	 * Gets latitude.
 	 *

@@ -11,10 +11,7 @@ import services.RestaurantService;
 
 import javax.inject.Inject;
 import java.util.UUID;
-import java.util.List;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * The type Restaurant controller.
@@ -29,6 +26,8 @@ public class RestaurantController extends BaseController {
 	private static final String CITY_FILTER = "cityFilter";
 	private static final String PRICE_FILTER = "priceFilter";
 	private static final String RATING_FILTER = "ratingFilter";
+	private static final String CUISINE_FILTER = "cuisineFilter";
+
 	private static final String SORT_BY = "sortBy";
 
 	private static final Integer DEFAULT_PAGE_NUMBER = 1;
@@ -81,17 +80,7 @@ public class RestaurantController extends BaseController {
 	@Transactional(readOnly = true)
 	public Result getAllRestaurants() {
 		String cityFilter = request().getQueryString(CITY_FILTER);
-		String queryString = request().uri();			
-		String cuisineFilter;
- 		Pattern pattern = Pattern.compile("cuisineFilter=([\\d\\D\\,]*)&");
-    	Matcher matcher = pattern.matcher(queryString);
-
-    	if (matcher.find())   		
-        	cuisineFilter=matcher.group(1);
-        else
-        	cuisineFilter = null;    	
-
-      	List<String> cuisineList = Arrays.asList(cuisineFilter.split("\\s*,\\s*"));
+		String[] cuisineFilter = request().queryString().get(CUISINE_FILTER);
 		
 		return wrapForPublic(() -> this.service.findRestaurantsWithFilter(
 				RestaurantFilter.createFilter()
@@ -100,7 +89,7 @@ public class RestaurantController extends BaseController {
 						.setNameFilter(request().getQueryString(NAME_FILTER))
 						.setPriceFilter(Integer.parseInt(request().getQueryString(PRICE_FILTER)))
 						.setRatingFilter(Double.parseDouble(request().getQueryString(RATING_FILTER)))						
-						.setCuisineFilter(!StringUtil.isNullOrEmpty(cuisineFilter) ? cuisineList : null)
+						.setCuisineFilter(!StringUtil.isNullOrEmpty(cuisineFilter[0]) ? Arrays.asList(cuisineFilter) : null)
 						.setCityFilter(!StringUtil.isNullOrEmpty(cityFilter) ? UUID.fromString(cityFilter) : null)
 						.setSort(request().getQueryString(SORT_BY))
 		));
