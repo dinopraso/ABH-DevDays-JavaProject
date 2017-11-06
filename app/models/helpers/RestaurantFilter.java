@@ -2,6 +2,7 @@ package models.helpers;
 
 import exceptions.ServiceException;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -25,6 +26,19 @@ public class RestaurantFilter {
 	 * The City id.
 	 */
 	public UUID cityId;
+	/**
+	 * The Rating
+	 */
+	public Double rating;
+	/**
+	 * The Cuisines
+	 */
+	public List<String> cuisines;
+	
+	/**
+	 * The Price.
+	 */
+	public Integer price;
 	/**
 	 * The Sort by.
 	 */
@@ -83,6 +97,15 @@ public class RestaurantFilter {
 		this.name = name;
 		return this;
 	}
+	/**
+	 * Set rating filter.
+	 * @param rating
+	 * @return
+	 */
+	public RestaurantFilter setRatingFilter(Double rating){
+	    this.rating = rating;
+	    return this;
+	}
 
 	/**
 	 * Sets city filter.
@@ -94,6 +117,24 @@ public class RestaurantFilter {
 	public RestaurantFilter setCityFilter(UUID cityId) throws ServiceException {
 		this.cityId = cityId;
 		return this;
+	}
+	/**
+	 * Set price filter.
+	 * @param price
+	 * @return
+	 */
+	public RestaurantFilter setPriceFilter(Integer price){
+	    this.price = price;
+	    return this;
+	}
+	/**
+	 * Set cuisine filter
+	 * @param cuisine
+	 * @return
+	 */
+	public RestaurantFilter setCuisineFilter(List<String> cuisine){
+	    this.cuisines = cuisine;
+	    return this;
 	}
 
 	/**

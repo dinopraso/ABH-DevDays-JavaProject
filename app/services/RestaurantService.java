@@ -90,6 +90,25 @@ public class RestaurantService extends BaseService {
 			criteria.add(Restrictions.eq("city.id", restaurantFilter.cityId));
 		}
 
+		if (restaurantFilter.price != null && restaurantFilter.price > 0) {
+			criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
+		}
+		
+		if (restaurantFilter.cuisines != null && !restaurantFilter.cuisines.get(0).isEmpty()) {
+			criteria.createCriteria("cuisines")
+				.add(Restrictions.in("name", restaurantFilter.cuisines));
+		}
+
+		if (restaurantFilter.rating != null && restaurantFilter.rating > 0) {
+			       List<UUID> temp = this.getRestauratnIdsWithAverageRating(restaurantFilter.rating);
+			       if(temp.size()>0){
+				   criteria.add(Restrictions.in("id",temp));
+			       }else{
+				   criteria.add(Restrictions.eq("id", null));
+			       }
+			}
+			
+		
 		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
 		criteria.setProjection(null)
@@ -102,6 +121,8 @@ public class RestaurantService extends BaseService {
 
 		criteria.addOrder(Order.asc("name"));
 
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
 		List<Restaurant> restaurants = criteria.list();
 
 		switch (restaurantFilter.sortBy) {
@@ -109,6 +130,7 @@ public class RestaurantService extends BaseService {
 				restaurants.sort((o1, o2) -> o2.getAverageRating().compareTo(o1.getAverageRating()));
 				break;
 		}
+
 
 		return PaginationAdapter.createOutput()
 				.setPageNumber(restaurantFilter.pageNumber)
@@ -253,5 +275,23 @@ public class RestaurantService extends BaseService {
 
 		getSession().update(restaurant);
 		return "{ \"imageFor\": \"" + imageUploadForm.getImageType() + "\", \"url\": \"" + newImagePath + "\"}";
+	}
+	/**
+	 * Get restaurant ids with average rating
+	 * @param averageRating 
+	 * @return List
+	 */
+	@SuppressWarnings("unchecked")
+	private List<UUID> getRestauratnIdsWithAverageRating(Double averageRating){
+	    List<RestaurantReview> restaurantRewiews = getSession()
+		    .createSQLQuery("select *  FROM restaurant_review group by id,restaurant_id HAVING avg(rating)>= :averageRating - 0.5 and  avg(rating) <:averageRating + 0.5")
+		    .addEntity(RestaurantReview.class)
+		    .setParameter("averageRating", averageRating)
+		    .list();
+	    if(!restaurantRewiews.isEmpty()){
+		List<UUID> listOfIds = restaurantRewiews.stream().map(RestaurantReview::getRestaurantId).collect(Collectors.toList());
+		return listOfIds;	}
+	    return new ArrayList<>();
+		    
 	}
 }

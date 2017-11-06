@@ -10,6 +10,9 @@ import play.mvc.Result;
 import services.RestaurantService;
 
 import javax.inject.Inject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -23,8 +26,10 @@ public class RestaurantController extends BaseController {
 	private static final String PAGE_SIZE = "pageSize";
 	private static final String NAME_FILTER = "nameFilter";
 	private static final String CITY_FILTER = "cityFilter";
+	private static final String PRICE_FILTER = "priceFilter";
+	private static final String RATING_FILTER = "ratingFilter";
+	private static final String CUISINE_FILTER = "cuisineFilter";
 	private static final String SORT_BY = "sortBy";
-
 	private static final Integer DEFAULT_PAGE_NUMBER = 1;
 	private static final Integer DEFAULT_PAGE_SIZE = 9;
 
@@ -75,11 +80,15 @@ public class RestaurantController extends BaseController {
 	@Transactional(readOnly = true)
 	public Result getAllRestaurants() {
 		String cityFilter = request().getQueryString(CITY_FILTER);
+		String cuisine = request().getQueryString(CUISINE_FILTER);
 		return wrapForPublic(() -> this.service.findRestaurantsWithFilter(
 				RestaurantFilter.createFilter()
 						.setPageNumber(getQueryInt(request().getQueryString(PAGE_NUMBER), DEFAULT_PAGE_NUMBER))
 						.setPageSize(getQueryInt(request().getQueryString(PAGE_SIZE), DEFAULT_PAGE_SIZE))
 						.setNameFilter(request().getQueryString(NAME_FILTER))
+						.setCuisineFilter(new ArrayList<String>(Arrays.asList(cuisine)))
+						.setRatingFilter(Double.parseDouble(request().getQueryString(RATING_FILTER)))
+						.setPriceFilter(Integer.parseInt(request().getQueryString(PRICE_FILTER)))
 						.setCityFilter(!StringUtil.isNullOrEmpty(cityFilter) ? UUID.fromString(cityFilter) : null)
 						.setSort(request().getQueryString(SORT_BY))
 		));
