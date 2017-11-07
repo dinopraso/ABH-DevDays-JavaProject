@@ -101,7 +101,7 @@ public class RestaurantService extends BaseService {
 
 if (restaurantFilter.rating != null && restaurantFilter.rating > 0) {
 			List<RestaurantReview> listOfRewiews =  getSession()
-			.createSQLQuery("select distinct on (restaurant_id) *  FROM restaurant_review group by id,restaurant_id HAVING avg(rating) >= :avgRating - 0.5 and  avg(rating) < :avgRating + 0.5")
+			.createSQLQuery("select distinct on (restaurant_id) *  FROM restaurant_review group by id,restaurant_id HAVING (0.5*avg(rating)+ 2.5*(1-exp(-count(*)/10.0))) >= :avgRating - 0.5 and  (0.5*avg(rating)+ 2.5*(1-exp(-count(*)/10.0))) < :avgRating + 0.5")
 			.addEntity(RestaurantReview.class)
 			.setParameter("avgRating",restaurantFilter.rating)
 			.list();

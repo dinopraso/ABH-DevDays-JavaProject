@@ -405,9 +405,9 @@ public class Restaurant extends BaseModel {
 	 *
 	 * @return the average rating
 	 */
-	public Double getAverageRating() {		
+	public Double getAverageRating() {
 		OptionalDouble average = this.reviews.stream().mapToInt(RestaurantReview::getRating).average();
-		return average.isPresent() ? average.getAsDouble() : 0D;
+		return average.isPresent() ?  0.5*average.getAsDouble() + 2.5 * (1-Math.exp(-getNumberOfRatings().doubleValue()/10D)) : 0D;
 	}
 	
 	/**
