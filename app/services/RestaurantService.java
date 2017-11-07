@@ -90,6 +90,30 @@ public class RestaurantService extends BaseService {
 			criteria.add(Restrictions.eq("city.id", restaurantFilter.cityId));
 		}
 
+		if (restaurantFilter.price != null && restaurantFilter.price > 0) {
+			criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
+		}
+
+		if (restaurantFilter.cuisine != null) {
+			criteria.createCriteria("cuisines")
+				.add(Restrictions.in("name", restaurantFilter.cuisine));
+		}
+
+if (restaurantFilter.rating != null && restaurantFilter.rating > 0) {
+			List<RestaurantReview> listOfRewiews =  getSession()
+			.createSQLQuery("select distinct on (restaurant_id) *  FROM restaurant_review group by id,restaurant_id HAVING avg(rating) >= :avgRating - 0.5 and  avg(rating) < :avgRating + 0.5")
+			.addEntity(RestaurantReview.class)
+			.setParameter("avgRating",restaurantFilter.rating)
+			.list();
+
+			if(!listOfRewiews.isEmpty()){
+				List<UUID> listOfIds = listOfRewiews.stream().map(RestaurantReview::getRestaurantId).collect(Collectors.toList());
+				criteria.add(Restrictions.in("id",listOfIds));
+			}
+			else
+				criteria.add(Restrictions.eq("id", null));
+		}
+		
 		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
 		criteria.setProjection(null)
@@ -102,6 +126,8 @@ public class RestaurantService extends BaseService {
 
 		criteria.addOrder(Order.asc("name"));
 
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
 		List<Restaurant> restaurants = criteria.list();
 
 		switch (restaurantFilter.sortBy) {
@@ -109,6 +135,7 @@ public class RestaurantService extends BaseService {
 				restaurants.sort((o1, o2) -> o2.getAverageRating().compareTo(o1.getAverageRating()));
 				break;
 		}
+
 
 		return PaginationAdapter.createOutput()
 				.setPageNumber(restaurantFilter.pageNumber)

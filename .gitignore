@@ -4,6 +4,7 @@ target
 /.idea_modules
 /.classpath
 /.settings
+/.project
 /RUNNING_PID
 sh.exe.stackdump
 .DS_Store
