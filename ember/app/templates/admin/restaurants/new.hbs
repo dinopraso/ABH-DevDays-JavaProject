@@ -4,6 +4,7 @@
     <li role="presentation"><a href="#cuisine" aria-controls="cuisine" role="tab" data-toggle="tab">Cuisines</a></li>
     <li role="presentation"><a href="#tables" aria-controls="tables" role="tab" data-toggle="tab">Tables</a></li>
     <li role="presentation"><a href="#menu" aria-controls="menu" role="tab" data-toggle="tab">Menu</a></li>
+    <li role="presentation"><a href="#gallery" aria-controls="gallery" role="tab" data-toggle="tab">Gallery</a></li>
   </ul>
 </div>
 
@@ -26,7 +27,7 @@
                     {{/if}}
                     {{fa-icon "fa-cloud-upload"}}Upload Logo
                   </label>
-                  {{file-upload id="profileImageUpload" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="profile" progress=uploadProgressProfile onFinishedUpload=(action 'uploadedImage')}}
+                   {{file-upload id="profileImageUpload" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="profile" progress=uploadProgressProfile onFinishedUpload=(action 'uploadedImage')}}
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6">
@@ -236,6 +237,33 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.restaurants' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Restaurant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="gallery">
+      <div class="admin-form">
+
+      	<h1 class="admin-from-title">Photos</h1>
+
+       <button  class="admin-from-new-button grey" for="uploadPhotoFile"> {{file-upload id="uploadPhotoFile" url="http://localhost:9000/api/v1/fileUpload" restaurantId=model.restaurant.id imageFor="cover" progress=uploadProgressCover onFinishedUpload=(action 'uploadedImage')}}</button>
+      
+        
+        <div class="row">
+          {{#each model.restaurant.photos as |photo|}}
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+		        <img class="galleryItem img-responsive center-block" src={{photo.path}}>
+             <button {{action 'removePhoto' photo.id}}>{{fa-icon 'trash'}}</button>
+		   </div>
+          {{/each}}
+        
+        </div>	
+        
 
         <div class="row">
           <div class="col-xs-12" style="text-align: right">

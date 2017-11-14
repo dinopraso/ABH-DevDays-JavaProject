@@ -158,6 +158,23 @@
               </div>
             </div>
           </div>
+
+          <div id="gallery" class="restaurant-card">
+            <h2 class="restaurant-card-title">Gallery</h2>
+           
+	            <div class="row">
+	            	
+		            {{#each model.restaurant.photos as |item|}}
+		            		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+		                    	<img class="galleryItem img-responsive center-block" src={{item.path}}>
+		                   	</div>
+		            {{/each}}
+		
+	            </div>
+           
+          </div>
+
+
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ GET     /api/v1/getCurrentUser                              controllers.UserCont
 POST    /api/v1/login                                       controllers.UserController.login
 POST    /api/v1/logout                                      controllers.UserController.logout
 POST    /api/v1/register                                    controllers.UserController.register
+							
 
 GET     /api/v1/admin/getAllUsers                           controllers.UserController.getAllUsers
 GET     /api/v1/admin/getUser/:id                           controllers.UserController.getUser(id: String)
@@ -51,7 +52,7 @@ DELETE  /api/v1/admin/deleteCuisine/:id                     controllers.CuisineC
 
 GET     /api/v1/getAllCuisines                              controllers.CuisineController.getAllCuisines
 
-# ---------------------------------------------------------------------------------------------------------------------- TO BE DEPRECATED
+# ------------------------------------------------------------------------------------------------------ TO BE DEPRECATED
 GET     /api/v1/getAllCuisinesAsString                      controllers.CuisineController.getAllCuisinesAsString
 
 # CITY MANAGEMENT ROUTES -----------------------------------------------------------------------------------------------
@@ -64,6 +65,8 @@ DELETE  /api/v1/admin/deleteCity/:id                        controllers.CityCont
 GET     /api/v1/getAllCities                                controllers.CityController.getAllCities
 
 # ADMINISTRATOR MANAGEMENT ROUTES --------------------------------------------------------------------------------------
+
+OPTIONS    /api/v1/fileUpload							    controllers.AdministratorController.fileUpload
 
 # EMBER PASSTHROUGH ROUTES ---------------------------------------------------------------------------------------------
 
