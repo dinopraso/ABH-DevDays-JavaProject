@@ -59,6 +59,14 @@ export default Ember.Controller.extend({
     removeTable(tableId) {
       this.get('model.restaurant.tables').removeObject(this.get('model.restaurant.tables').findBy('id', tableId));
     },
+	
+	addPhoto(){
+    	this.get('model.restaurant.photos').pushObject({id:null,restaurantId: this.get('model.restaurant.id'), path: "http://www.iconarchive.com/download/i95244/dtafalonso/modern-xp/ModernXP-29-Filetype-Picture.ico"});
+    },
+	
+	removePhoto(photoId){
+    	this.get('model.restaurant.photos').removeObject(this.get('model.restaurant.photos').findBy('id', photoId));
+    },
 
     setCity() {
       let selectBox = document.getElementById('city-select');
