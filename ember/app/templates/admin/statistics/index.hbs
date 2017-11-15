@@ -1,0 +1,10 @@
+<div class="admin-form">
+  	 <h1 class="admin-from-title">Total number of restauratns:{{model.statistics.numberOfRestoraunt}}</h1>
+  	 <h1 class="admin-from-title">Total number of reservation:{{model.statistics.numberOfReservation}}</h1>
+     <h1 class="admin-from-title">Total number of city:{{model.statistics.numberOfCity}}</h1>
+     <h1 class="admin-from-title">Total number of Users:{{model.statistics.numberOfUsers}}</h1>
+     <h3>Number of restaurants by cities:</h3>
+     {{#each model.statistics.popularLocations as |item|}}
+			<h4>City:  {{item.city.name}}  -  Number of restaurants: {{item.numberOfRestaurants}}</h4>
+    {{/each}}
+</div>
