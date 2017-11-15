@@ -64,6 +64,7 @@ DELETE  /api/v1/admin/deleteCity/:id                        controllers.CityCont
 GET     /api/v1/getAllCities                                controllers.CityController.getAllCities
 
 # ADMINISTRATOR MANAGEMENT ROUTES --------------------------------------------------------------------------------------
+GET 	/api/v1/getAllStatistics						    controllers.AdministratorController.getStatistics
 
 # EMBER PASSTHROUGH ROUTES ---------------------------------------------------------------------------------------------
 
