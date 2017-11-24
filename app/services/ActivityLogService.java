@@ -1,0 +1,45 @@
+package services;
+
+import java.io.IOException;
+import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import models.tables.ActivityLog;
+import play.db.jpa.Transactional;
+
+/**
+ *The type ActivityLog service
+ */
+@Singleton
+public class ActivityLogService extends BaseService {
+	
+	@Inject
+	public ActivityLogService() { }
+	
+	/**
+	 * Gets all activity logs.
+	 * 
+	 * @return the all activity logs
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityLog> getAllActivityLogs() {
+		return (List<ActivityLog>) getSession().createCriteria(ActivityLog.class).list();
+	}
+	
+	/**
+	 * Post activity log.
+	 *
+	 * @param activity the activity
+	 * @return the boolean
+	 */
+	@Transactional
+	public Boolean postActivityLog(String activity) throws IOException{
+		ActivityLog activity_log = new ActivityLog();
+		activity_log.setActivity(activity.toString());
+		activity_log.setDate_time(System.currentTimeMillis());
+		getSession().save(activity_log);
+		return true;
+	}
+}

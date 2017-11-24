@@ -13,6 +13,8 @@ import org.hibernate.criterion.Restrictions;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import java.io.IOException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.stream.IntStream;
  */
 @Singleton
 public class ReservationService extends BaseService {
+	private ActivityLogService logService = new ActivityLogService();
 
 	private static final Long ONE_HOUR_MILLIS = TimeUnit.HOURS.toMillis(1);
 	private static final Long FORTY_FIVE_MINUTES_MILLIS = TimeUnit.MINUTES.toMillis(45);
@@ -95,7 +98,13 @@ public class ReservationService extends BaseService {
 		} else {
 			response.setTimeSuggestions(reservationForm.getTime());
 		}
-
+		
+		try {
+			logService.postActivityLog("Reservation inquery");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return response;
 	}
 
@@ -160,9 +169,16 @@ public class ReservationService extends BaseService {
 						reservationForm.getNumberOfPeople()
 				).get(0)
 		);
-
+		
 		getSession().save(reservation);
 
+		try {
+			logService.postActivityLog("Made reservation");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Problems with creating the log files");
+        }
+		
 		return reservation;
 	}
 
@@ -175,6 +191,13 @@ public class ReservationService extends BaseService {
 	 */
 	public Boolean confirmReservation(ReservationConfirmationForm reservationConfirmationForm) throws Exception {
 		getSession().saveOrUpdate(reservationConfirmationForm.getReservation());
+		
+		try {
+            logService.postActivityLog("Confirmed reservation.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
 		return true;
 	}
 
