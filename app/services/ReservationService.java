@@ -10,6 +10,7 @@ import models.tables.User;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Criterion;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,6 +22,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.joda.time.DateTime;
+
 
 /**
  * The type Reservation service.
@@ -107,6 +110,11 @@ public class ReservationService extends BaseService {
 		Timestamp oneHourAfter = new Timestamp(desiredTime.getTime());
 		oneHourAfter.setTime(oneHourAfter.getTime() + ONE_HOUR_MILLIS);
 
+		Timestamp now = new Timestamp(DateTime.now().getMillis());
+
+		Timestamp fiveMinutesBefore = new Timestamp(DateTime.now().getMillis());
+		fiveMinutesBefore.setTime(now.getTime() - FIVE_MINUTES_MILLIS);
+		
 		List<UUID> potentialTableIds = getSession().createCriteria(RestaurantTable.class)
 				.add(Restrictions.eq("restaurantId", restaurantId))
 				.add(Restrictions.between("numberOfChairs", numberOfChairs, numberOfChairs + 2))
@@ -116,10 +124,13 @@ public class ReservationService extends BaseService {
 		List<UUID> freeTableIds = new ArrayList<>();
 
 		if (potentialTableIds.size() > 0) {
+			Criterion firstCriteria = Restrictions.eq("isConfirmed", true);
+			Criterion secondCriteria = Restrictions.and(Restrictions.eq("isConfirmed", false),Restrictions.between("reservedOn",fiveMinutesBefore,now));
+			
 			List <Reservation> reservedTables = getSession().createCriteria(Reservation.class)
 					.add(Restrictions.between("startTime", fortyFiveMinutesBefore, oneHourAfter))
 					.add(Restrictions.in("table.id", potentialTableIds))
-					.add(Restrictions.eq("isConfirmed", true))
+					.add(Restrictions.or(firstCriteria, secondCriteria))
 					.list();
 
 			freeTableIds.addAll(potentialTableIds.stream().filter(potentialTableId ->
