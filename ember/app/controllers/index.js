@@ -21,6 +21,14 @@ export default Ember.Controller.extend({
   time: '17:30',
   date: new Date().toISOString().substring(0, 10),
 
+  popRes: function(){
+	 console.log(this.get('model.user.id'));
+      this.get('ajax')
+          .request('/getPopularRestaurants/' + this.get('model.user.id'))
+          .then(result => this.set('popRes', result));
+        
+  }.property('popRes'),
+  
   nearbyRestaurants: function () {
     if (this.get('geolocation')) {
       this.get('geolocation').getCurrentPosition(
@@ -43,6 +51,7 @@ export default Ember.Controller.extend({
       };
       this.transitionToRoute('search-results', { queryParams: filters });
     },
+    
 
     setNumberOfPeople() {
       let selectBox = document.getElementById('numberOfPeople');

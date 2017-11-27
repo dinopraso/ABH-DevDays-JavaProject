@@ -44,7 +44,7 @@
       </div>
     </div>
     {{/if}}
-    {{#if hasPopularRestaurants}}
+   
     <div class="container popularRestaurants">
       <div class="row">
         <div class="col-xs-12">
@@ -52,14 +52,14 @@
         </div>
       </div>
       <div class="row">
-        {{#each model.popularRestaurants as |restaurant|}}
+        {{#each popRes as |restaurant|}}
         <div class="col-xs-12 col-sm-6 col-md-4">
           {{restaurant-tile data=restaurant buttonStyle="grey"}}
         </div>
         {{/each}}
       </div>
     </div>
-    {{/if}}
+    
 
     {{popular-locations locations=model.popularLocations}}
   </div>

@@ -114,8 +114,13 @@ public class RestaurantController extends BaseController {
 	 * @return the popular restaurants
 	 */
 	@Transactional(readOnly = true)
-	public Result getPopularRestaurants() {
-		return wrapForPublic(() -> this.service.getPopularRestaurants());
+	public Result getPopularRestaurants(String id) {
+	        if(id != "undefined"){
+		return wrapForPublic(() -> this.service.getPopularRestaurants(UUID.fromString(id)));
+	        }
+	        else{
+	            return wrapForPublic(() -> this.service.getPopularRestaurants());
+	        }
 	}
 
 	/**
