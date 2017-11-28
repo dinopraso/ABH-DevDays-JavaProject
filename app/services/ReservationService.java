@@ -113,7 +113,7 @@ public class ReservationService extends BaseService {
 		Timestamp now = new Timestamp(DateTime.now().getMillis());
 
 		Timestamp fiveMinutesBefore = new Timestamp(DateTime.now().getMillis());
-		fiveMinutesBefore.setTime(now.getTime() - FIVE_MINUTES_MILLIS);
+		fiveMinutesBefore.setTime(fiveMinutesBefore.getTime() - FIVE_MINUTES_MILLIS);
 		
 		List<UUID> potentialTableIds = getSession().createCriteria(RestaurantTable.class)
 				.add(Restrictions.eq("restaurantId", restaurantId))
