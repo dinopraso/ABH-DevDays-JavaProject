@@ -11,6 +11,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import controllers.ActivityLogController;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -169,16 +171,16 @@ public class ReservationService extends BaseService {
 						reservationForm.getNumberOfPeople()
 				).get(0)
 		);
-		
-		getSession().save(reservation);
 
+		getSession().save(reservation);
+		
 		try {
 			logService.postActivityLog("Made reservation");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Problems with creating the log files");
         }
-		
+
 		return reservation;
 	}
 

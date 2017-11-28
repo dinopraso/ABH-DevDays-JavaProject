@@ -33,13 +33,4 @@ public class ActivityLogController extends BaseController {
 	public Result getAllActivityLogs() {
 		return wrapForAdmin(() -> this.service.getAllActivityLogs());
 	}
-	
-	/**
-	 * Save activity log.
-	 * 
-	 * @return the result
-	 */
-	public Result postActivityLog(String log){	
-		return wrapForUser(() -> this.service.postActivityLog(log));
-	}	
 }

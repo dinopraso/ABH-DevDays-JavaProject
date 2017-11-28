@@ -20,8 +20,8 @@ Router.map(function () {
   this.route('badRequest', { path: '*path' });
   this.route('search-results');
   this.route('admin', function () {
-	  this.route('activity_logs', function () {});
-	this.route('restaurants', function () {
+      this.route('activity_logs', function () {});
+    this.route('restaurants', function () {
       this.route('new');
       this.route('edit', { path: 'edit/:restaurant_id' });
       this.route('delete', { path: 'delete/:restaurant_id' });
