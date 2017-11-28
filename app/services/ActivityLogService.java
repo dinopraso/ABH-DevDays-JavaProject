@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.hibernate.criterion.Order;
+
 import models.tables.ActivityLog;
 import models.tables.User;
 import play.db.jpa.Transactional;
@@ -26,7 +28,9 @@ public class ActivityLogService extends BaseService {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ActivityLog> getAllActivityLogs() {
-		return (List<ActivityLog>) getSession().createCriteria(ActivityLog.class).list();
+		return (List<ActivityLog>) getSession().createCriteria(ActivityLog.class)
+				.addOrder(Order.desc("date_time"))
+				.list();
 	}
 
 	/**
