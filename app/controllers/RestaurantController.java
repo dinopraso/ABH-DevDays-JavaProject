@@ -43,7 +43,7 @@ public class RestaurantController extends BaseController {
 	 */
 	@Transactional
 	public Result createRestaurant() {
-		return wrapForAdmin(() -> this.service.createRestaurant(formFactory.form(Restaurant.class).bindFromRequest().get()));
+		return wrapForAdmin(() -> this.service.createRestaurant(formFactory.form(Restaurant.class).bindFromRequest().get(), this.cache.get(session("uid"))));
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class RestaurantController extends BaseController {
 	 */
 	@Transactional
 	public Result editRestaurant() {
-		return wrapForAdmin(() -> this.service.editRestaurant(formFactory.form(Restaurant.class).bindFromRequest().get()));
+		return wrapForAdmin(() -> this.service.editRestaurant(formFactory.form(Restaurant.class).bindFromRequest().get(), this.cache.get(session("uid"))));
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class RestaurantController extends BaseController {
 	 */
 	@Transactional
 	public Result deleteRestaurant(String id) {
-		return wrapForAdmin(() -> this.service.deleteRestaurant(UUID.fromString(id)));
+		return wrapForAdmin(() -> this.service.deleteRestaurant(UUID.fromString(id), this.cache.get(session("uid"))));
 	}
 
 	/**
@@ -155,6 +155,6 @@ public class RestaurantController extends BaseController {
 	 */
 	@Transactional
 	public Result updatePicture() {
-		return wrapForAdmin(() -> this.service.updatePicture(formFactory.form(ImageUploadForm.class).bindFromRequest().get()));
+		return wrapForAdmin(() -> this.service.updatePicture(formFactory.form(ImageUploadForm.class).bindFromRequest().get(), this.cache.get(session("uid"))));
 	}
 }

@@ -1,6 +1,8 @@
 package services;
 
 import models.tables.City;
+import models.tables.User;
+
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -15,6 +17,7 @@ import java.util.UUID;
 @Singleton
 public class CityService extends BaseService {
 
+	private ActivityLogService logService = new ActivityLogService();
 	private static final String ORDER_KEY = "name";
 
 	@Inject
@@ -50,8 +53,15 @@ public class CityService extends BaseService {
 	 * @param city the city
 	 * @throws Exception the exception
 	 */
-	public Boolean createCity(final City city) throws Exception {
+	public Boolean createCity(final City city, final User user) throws Exception {
 		getSession().save(city);
+		
+		try {
+			logService.postActivityLog("Added city " + city.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 
@@ -61,8 +71,15 @@ public class CityService extends BaseService {
 	 * @param city the city
 	 * @throws Exception the exception
 	 */
-	public Boolean editCity(final City city) throws Exception {
+	public Boolean editCity(final City city, final User user) throws Exception {
 		getSession().update(city);
+		
+		try {
+			logService.postActivityLog("Edited city " + city.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 
@@ -72,12 +89,19 @@ public class CityService extends BaseService {
 	 * @param id the id
 	 * @throws Exception the exception
 	 */
-	public Boolean deleteCity(final UUID id) throws Exception {
+	public Boolean deleteCity(final UUID id, final User user) throws Exception {
 		City city = (City) getSession().createCriteria(City.class)
 				.add(Restrictions.eq("id", id))
 				.uniqueResult();
 
 		getSession().delete(city);
+		
+		try {
+			logService.postActivityLog("Deleted city " + city.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 }

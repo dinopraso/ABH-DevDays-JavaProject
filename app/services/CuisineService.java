@@ -1,6 +1,8 @@
 package services;
 
 import models.tables.Cuisine;
+import models.tables.User;
+
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class CuisineService extends BaseService {
 
+	private ActivityLogService logService = new ActivityLogService();
 	private static final String ORDER_KEY = "name";
 
 	@Inject
@@ -62,8 +65,15 @@ public class CuisineService extends BaseService {
 	 * @param cuisine the cuisine
 	 * @return the boolean
 	 */
-	public Boolean createCuisine(final Cuisine cuisine) {
+	public Boolean createCuisine(final Cuisine cuisine, final User user) {
 		getSession().save(cuisine);
+		
+		try {
+			logService.postActivityLog("Added cuisine " + cuisine.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 
@@ -73,8 +83,15 @@ public class CuisineService extends BaseService {
 	 * @param cuisine the cuisine
 	 * @return the boolean
 	 */
-	public Boolean editCuisine(final Cuisine cuisine) {
+	public Boolean editCuisine(final Cuisine cuisine, final User user) {
 		getSession().update(cuisine);
+		
+		try {
+			logService.postActivityLog("Edited cuisine " + cuisine.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 
@@ -84,12 +101,19 @@ public class CuisineService extends BaseService {
 	 * @param id the id
 	 * @return the boolean
 	 */
-	public Boolean deleteCuisine(final UUID id) {
+	public Boolean deleteCuisine(final UUID id, final User user) {
 		Cuisine cuisine = (Cuisine) getSession().createCriteria(Cuisine.class)
 				.add(Restrictions.eq("id", id))
 				.uniqueResult();
 
 		getSession().delete(cuisine);
+		
+		try {
+			logService.postActivityLog("Deleted cuisine " + cuisine.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 }

@@ -7,20 +7,13 @@ import javax.inject.Singleton;
 
 import models.tables.ActivityLog;
 import models.tables.User;
-import play.cache.CacheApi;
 import play.db.jpa.Transactional;
-import play.mvc.Controller;
 
 /**
  *The type ActivityLog service
  */
 @Singleton
 public class ActivityLogService extends BaseService {
-	
-	/**
-	 * The Cache.
-	 */
-	CacheApi cache;
 	
 	@Inject
 	public ActivityLogService() { }
@@ -43,10 +36,9 @@ public class ActivityLogService extends BaseService {
 	 * @return the boolean
 	 */
 	@Transactional
-	public Boolean postActivityLog(String activity) throws IOException{
-		//User user = cache.get(Controller.session("uid"));
+	public Boolean postActivityLog(String activity, User user) throws IOException{
 		ActivityLog activity_log = new ActivityLog();
-		//activity_log.setUser(user);
+		activity_log.setUser(user);
 		activity_log.setActivity(activity.toString());
 		activity_log.setDate_time(System.currentTimeMillis());
 		getSession().save(activity_log);

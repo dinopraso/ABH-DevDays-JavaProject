@@ -5,13 +5,12 @@ import models.helpers.UserReservations;
 import models.helpers.forms.ReservationConfirmationForm;
 import models.helpers.forms.ReservationForm;
 import models.tables.Reservation;
+import models.tables.Restaurant;
 import models.tables.RestaurantTable;
 import models.tables.User;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-
-import controllers.ActivityLogController;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -101,12 +100,6 @@ public class ReservationService extends BaseService {
 			response.setTimeSuggestions(reservationForm.getTime());
 		}
 		
-		try {
-			logService.postActivityLog("Reservation inquery");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		return response;
 	}
 
@@ -158,7 +151,7 @@ public class ReservationService extends BaseService {
 	 * @return the reservation
 	 * @throws Exception the exception
 	 */
-	public Reservation postReservation(ReservationForm reservationForm) throws Exception {
+	public Reservation postReservation(ReservationForm reservationForm, User user) throws Exception {
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(reservationForm.getDate().getTime() + reservationForm.getTime().getTime() + ONE_HOUR_MILLIS);
 		reservation.setReservedOn(System.currentTimeMillis());
@@ -174,11 +167,14 @@ public class ReservationService extends BaseService {
 
 		getSession().save(reservation);
 		
+		
+		Restaurant restaurant = (Restaurant) getSession().createCriteria(Restaurant.class)
+				.add(Restrictions.eq("id", reservationForm.getRestaurantId()));
+		
 		try {
-			logService.postActivityLog("Made reservation");
+			logService.postActivityLog("Made reservation in restaurant " + restaurant.getName(), user);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Problems with creating the log files");
         }
 
 		return reservation;
@@ -191,11 +187,11 @@ public class ReservationService extends BaseService {
 	 * @return the boolean
 	 * @throws Exception the exception
 	 */
-	public Boolean confirmReservation(ReservationConfirmationForm reservationConfirmationForm) throws Exception {
+	public Boolean confirmReservation(ReservationConfirmationForm reservationConfirmationForm, User user) throws Exception {
 		getSession().saveOrUpdate(reservationConfirmationForm.getReservation());
 		
 		try {
-            logService.postActivityLog("Confirmed reservation.");
+            logService.postActivityLog("Confirmed reservation.", user);
         } catch (IOException e) {
             e.printStackTrace();
         }
