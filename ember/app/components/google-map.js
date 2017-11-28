@@ -14,6 +14,7 @@ export default Ember.Component.extend({
     let options = {
       center: new window.google.maps.LatLng(43.9, 18),
       zoom: 7,
+	  mapTypeId: 'roadmap',
     };
 
     let map = new window.google.maps.Map(container, options);

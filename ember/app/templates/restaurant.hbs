@@ -158,6 +158,10 @@
               </div>
             </div>
           </div>
+		  <div id="about" class="restaurant-card">
+            <h2 class="restaurant-card-title">Location</h2>
+             {{google-map marker=marker zoom=zoom polygon=polygon defaultMerkerPosition=defaultMerkerPosition bounds=model.restaurant.city.bounds markerLat=model.restaurant.latitude markerLng=model.restaurant.longitude editableMarker=true}}
+          </div>
         </div>
       </div>
     </div>
