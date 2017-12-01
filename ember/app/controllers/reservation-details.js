@@ -31,9 +31,10 @@ export default Ember.Controller.extend({
   hasExpired: computed('expirationCounter', 'reservationConfirmed', function () {
     return this.get('reservationConfirmed') ? false : this.get('expirationCounter') <= 0;
   }),
-
+  hasConfirmationError: false,
   isNotLoggedIn: not('userIsLoggedIn'),
   showRegistrationForm: true,
+  
 
   actions: {
     setCity() {
@@ -43,7 +44,6 @@ export default Ember.Controller.extend({
 
     confirmReservation() {
       this.set('model.reservation.user', this.get('model.user.object'));
-      this.set('reservationConfirmed', true);
       this.get('ajax').post('/confirmReservation', {
         xhrFields: {
           withCredentials: true,
@@ -54,9 +54,14 @@ export default Ember.Controller.extend({
         }),
       })
       .then(
-        () => this.transitionToRoute('user'),
-        (error) => alert(error)
-      );
+        () =>{ 
+          this.set('reservationConfirmed', true);
+          this.transitionToRoute('user');
+      },
+        (error) => {          
+          this.set('hasConfirmationError', true);
+          this.set('errorMessage', error.errors[0].title);
+        });
     },
 
     authenticate() {

@@ -7,6 +7,7 @@ import models.helpers.forms.ReservationForm;
 import models.tables.Reservation;
 import models.tables.RestaurantTable;
 import models.tables.User;
+import exceptions.ServiceException;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -158,23 +159,21 @@ public class ReservationService extends BaseService {
 	 * @return the reservation
 	 * @throws Exception the exception
 	 */
-	public Reservation postReservation(ReservationForm reservationForm) throws Exception {
+	public Reservation postReservation(ReservationForm reservationForm) throws Exception,ServiceException {
 		Reservation reservation = new Reservation();
 		reservation.setStartTime(reservationForm.getDate().getTime() + reservationForm.getTime().getTime() + ONE_HOUR_MILLIS);
 		reservation.setReservedOn(System.currentTimeMillis());
 		reservation.setConfirmed(false);
+		List<RestaurantTable> freeTables = this.getFreeTables(reservation.getStartTime(),reservationForm.getRestaurantId(),reservationForm.getNumberOfPeople());
 
-		reservation.setTable(
-				this.getFreeTables(
-						reservation.getStartTime(),
-						reservationForm.getRestaurantId(),
-						reservationForm.getNumberOfPeople()
-				).get(0)
-		);
-
-		getSession().save(reservation);
-
-		return reservation;
+		if(!freeTables.isEmpty()){
+			reservation.setTable(freeTables.get(0));
+			getSession().save(reservation);
+			return reservation;
+			}
+        else{
+			throw new ServiceException("Reservation Error", "No more free tables!");
+		}				
 	}
 
 	/**
@@ -184,9 +183,16 @@ public class ReservationService extends BaseService {
 	 * @return the boolean
 	 * @throws Exception the exception
 	 */
-	public Boolean confirmReservation(ReservationConfirmationForm reservationConfirmationForm) throws Exception {
-		getSession().saveOrUpdate(reservationConfirmationForm.getReservation());
-		return true;
+	public Boolean confirmReservation(ReservationConfirmationForm reservationConfirmationForm) throws Exception, ServiceException {
+		
+		if(isTableFree(reservationConfirmationForm.getReservation().getTable(),reservationConfirmationForm.getReservation().getStartTime(),reservationConfirmationForm.getReservation().getId())){
+			getSession().saveOrUpdate(reservationConfirmationForm.getReservation());
+			return true;
+		}
+		else
+		{
+			throw new ServiceException("Reservation Confirmation Error", "Table is not free");
+		}
 	}
 
 	/**
@@ -222,5 +228,34 @@ public class ReservationService extends BaseService {
 				.add(Restrictions.between("startTime", t1, t2))
 				.add(Restrictions.eq("isConfirmed", true))
 				.list();
+	}
+
+	public Boolean isTableFree(RestaurantTable table, Timestamp desiredTime, UUID reservationId){
+
+		Timestamp fortyFiveMinutesBefore = new Timestamp(desiredTime.getTime());
+		fortyFiveMinutesBefore.setTime(fortyFiveMinutesBefore.getTime() - FORTY_FIVE_MINUTES_MILLIS);
+
+		Timestamp oneHourAfter = new Timestamp(desiredTime.getTime());
+		oneHourAfter.setTime(oneHourAfter.getTime() + ONE_HOUR_MILLIS);
+
+		Timestamp now = new Timestamp(DateTime.now().getMillis());
+
+		Timestamp fiveMinutesBefore = new Timestamp(DateTime.now().getMillis());
+		fiveMinutesBefore.setTime(fiveMinutesBefore.getTime() - FIVE_MINUTES_MILLIS);
+
+		Criterion firstCriteria = Restrictions.eq("isConfirmed", true);
+		Criterion secondCriteria = Restrictions.and(Restrictions.eq("isConfirmed", false),Restrictions.between("reservedOn",fiveMinutesBefore,now));
+		
+		Reservation reservedTable = (Reservation) getSession().createCriteria(Reservation.class)
+				.add(Restrictions.between("startTime", fortyFiveMinutesBefore, oneHourAfter))
+				.add(Restrictions.eq("table.id", table.getId()))
+				.add(Restrictions.ne("id",reservationId))
+				.add(Restrictions.or(firstCriteria, secondCriteria))
+				.uniqueResult();	
+
+		if(reservedTable == null)
+			return true;
+		else
+			return false;
 	}
 }
