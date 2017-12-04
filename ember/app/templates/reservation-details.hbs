@@ -17,16 +17,11 @@
                 </p>
               </div>
               <div class="col-xs-12 col-sm-8">
-                {{#if model.reservation.confirmed}}
-                  Reservation Confirmed
-                {{else}}
-                  <p class="reservation-confirmation-timer">
-                    {{#if hasExpired}}
-                    {{fa-icon "exclamation"}}This reservation has expired. Please start a new Inquiry
-                    {{else}}
-                    {{fa-icon "clock-o"}}You have {{countdown-string startDate=countdownStart endDate=countdownEnd}} to complete your reservation
-                    {{/if}}
-                  </p>
+                {{#if model.reservation.confirmed}} Reservation Confirmed {{else}}
+                <p class="reservation-confirmation-timer">
+                  {{#if hasExpired}} {{fa-icon "exclamation"}}This reservation has expired. Please start a new Inquiry {{else}} {{fa-icon "clock-o"}}You
+                  have {{countdown-string startDate=countdownStart endDate=countdownEnd}} to complete your reservation {{/if}}
+                </p>
                 {{/if}}
               </div>
             </div>
@@ -34,21 +29,21 @@
               <div class="col-xs-12">
                 <img class="reservation-image" src="{{restaurant.profileImagePath}}" />
                 <h1 class="reservation-restaurant-name">
-                  <span>Restaurant</span><br>
-                  {{restaurant.name}}
+                  <span>Restaurant</span>
+                  <br> {{restaurant.name}}
                 </h1>
                 <p class="reservation-details-info">
                   <span>
-                    <span>Max. Guests</span><br>
-                    {{model.reservation.table.numberOfChairs}}
+                    <span>Max. Guests</span>
+                    <br> {{model.reservation.table.numberOfChairs}}
                   </span>
                   <span>
-                    <span>Date</span><br>
-                    {{model.reservation.date}}
+                    <span>Date</span>
+                    <br> {{model.reservation.date}}
                   </span>
                   <span>
-                    <span>Time</span><br>
-                    {{model.reservation.time}}
+                    <span>Time</span>
+                    <br> {{model.reservation.time}}
                   </span>
                 </p>
               </div>
@@ -56,11 +51,17 @@
           </div>
         </div>
       </div>
-      {{#unless model.user.isLoggedIn}}
-      {{#if showRegistrationForm}}
+      {{#if hasConfirmationError}}
+      <div class="row">
+        <div class="col-xs-12">
+          <h3 class="error-message">{{fa-icon "exclamation-triangle"}}{{errorMessage}}</h3>
+        </div>
+      </div>
+      {{/if}} 
+      {{#unless model.user.isLoggedIn}} {{#if showRegistrationForm}}
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-          <form class="login-register-form" {{action 'register' on='submit'}}>
+          <form class="login-register-form" {{action 'register' on='submit' }}>
             <div class="row">
               <div class="col-xs-12 col-sm-6">
                 <h1 class="form-title">Create Account</h1>
@@ -71,17 +72,15 @@
             </div>
             <div class="row">
               <div class="col-xs-12">
-                {{input class='form-input' type='text' placeholder='First Name' value=first_name}}
-                {{input class='form-input' type='text' placeholder='Last Name' value=last_name}}
-                {{input class='form-input' type='email' placeholder='Email' value=email}}
+                {{input class='form-input' type='text' placeholder='First Name' value=first_name}} {{input class='form-input' type='text'
+                placeholder='Last Name' value=last_name}} {{input class='form-input' type='email' placeholder='Email' value=email}}
                 {{input class='form-input' type='text' placeholder='Phone Number' value=phone_number}}
-                <select class='form-input' id="city-select" {{action 'setCity' on='change'}}>
+                <select class='form-input' id="city-select" {{action 'setCity' on='change' }}>
                   {{#each model.cities as |city|}}
                   <option value="{{city.id}}">{{city.name}}</option>
                   {{/each}}
                 </select>
-                {{input class='form-input' type='text' placeholder='Address' value=address}}
-                {{input class='form-input' type='password' placeholder='Password'value=password}}
+                {{input class='form-input' type='text' placeholder='Address' value=address}} {{input class='form-input' type='password' placeholder='Password'value=password}}
                 {{input class='form-input' type='password' placeholder='Confirm Password'value=confurm_password}}
                 <button class="form-button" type="submit">Create Account</button>
               </div>
@@ -99,7 +98,7 @@
       {{else}}
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-          <form class="login-register-form" {{action 'authenticate' on='submit'}}>
+          <form class="login-register-form" {{action 'authenticate' on='submit' }}>
             <div class="row">
               <div class="col-xs-12 col-sm-6">
                 <h1 class="form-title">Login</h1>
@@ -110,8 +109,8 @@
             </div>
             <div class="row">
               <div class="col-xs-12">
-                {{input id='email' class='form-input' type='email' placeholder='Email' value=email}}
-                {{input id='password' class='form-input' type='password' placeholder='Password'value=password}}
+                {{input id='email' class='form-input' type='email' placeholder='Email' value=email}} {{input id='password' class='form-input'
+                type='password' placeholder='Password'value=password}}
                 <button class="form-button" type="submit">Login</button>
               </div>
             </div>
@@ -125,9 +124,7 @@
           </form>
         </div>
       </div>
-      {{/if}}
-      {{/unless}}
-      {{#if model.user.object.isAdmin}}
+      {{/if}} {{/unless}} {{#if model.user.object.isAdmin}}
       <div class="row">
         <div class="col-xs-12" style="text-align: center; margin-top: 60px;">
           <p class="disclaimer">
@@ -135,8 +132,7 @@
           </p>
         </div>
       </div>
-      {{else}}
-      {{#unless hasExpired}}
+      {{else}} {{#unless hasExpired}}
       <div class="row">
         <div class="col-xs-12" style="text-align: center">
           <button class="confirm-reservation-button" type="button" disabled={{isNotLoggedIn}} {{action 'confirmReservation'}}>Complete Reservation</button>
@@ -145,8 +141,7 @@
           </p>
         </div>
       </div>
-      {{/unless}}
-      {{/if}}
+      {{/unless}} {{/if}}
     </div>
   </div>
 </div>

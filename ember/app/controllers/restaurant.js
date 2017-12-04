@@ -95,6 +95,7 @@ export default Ember.Controller.extend({
       .then(
         (response) => {
           this.set('model.didFindTable', true);
+          this.set('hasError', false);
           this.set('model.response', response);
         }, (error) => alert(error)
       );
@@ -110,7 +111,15 @@ export default Ember.Controller.extend({
           time: time,
         }),
       })
-      .then((response) => this.transitionToRoute('reservation-details', response.id));
+      .then(
+        (response) => {
+          this.transitionToRoute('reservation-details', response.id);
+        },
+      (error) => {
+        this.set('model.didFindTable', false);
+        this.set('hasError', true);        
+        this.set('errorMessage', error.errors[0].title);
+      });
     },
 
     setNumberOfPeople() {
