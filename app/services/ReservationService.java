@@ -251,11 +251,8 @@ public class ReservationService extends BaseService {
 				.add(Restrictions.eq("table.id", table.getId()))
 				.add(Restrictions.ne("id",reservationId))
 				.add(Restrictions.or(firstCriteria, secondCriteria))
-				.uniqueResult();	
-
-		if(reservedTable == null)
-			return true;
-		else
-			return false;
+				.uniqueResult();
+		
+		return reservedTable == null;
 	}
 }
