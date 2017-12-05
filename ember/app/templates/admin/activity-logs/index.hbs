@@ -1,0 +1,37 @@
+<div class="admin-form">
+  <h1 class="admin-from-title">Activity Logs</h1>
+ 	<ul class="admin-form-object-list">
+ 	 <li class="admin-form-object-list-item">
+ 		<div class="col-xs-12 col-sm-3">
+ 			<h3>User</h3>
+ 		</div>
+ 		<div class="col-xs-12 col-sm-5">
+    		<h3>Activity</h3>
+ 		</div>
+ 		<div class="col-xs-12 col-sm-2">
+    		<h3>Date</h3>
+    	</div>
+    	<div class="col-xs-12 col-sm-2">
+    		<h3>Time</h3>
+    	</div>
+ 	</li>
+ 	{{#each model.logs.model as |log|}}
+ 	<li class="admin-form-object-list-item">
+ 		<div class="col-xs-12 col-sm-3">
+			<span>{{log.user.name}}</span>
+		</div>
+		<div class="col-xs-12 col-sm-5">
+			<span>{{log.activity}}</span>
+		</div>
+		<div class="col-xs-12 col-sm-2">
+			<span>{{log.date}}</span>
+  		</div>
+  		<div class="col-xs-12 col-sm-2">
+			<span>{{log.time}}</span>
+  		</div>
+ 	</li>
+    {{/each}}
+ 	</ul>
+ 	{{page-numbers currentPage=model.logs.pageNumber maxPages=model.logs.numberOfPages}}
+</div>
+{{outlet}}

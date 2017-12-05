@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class RestaurantService extends BaseService {
 
+	private ActivityLogService logService = new ActivityLogService();
 	private static final String AWS_BASE_PATH = "https://abhrestaurants.s3.amazonaws.com/";
 
 	@Inject
@@ -41,8 +42,15 @@ public class RestaurantService extends BaseService {
 	 * @param restaurant the restaurant
 	 * @throws Exception the exception
 	 */
-	public Boolean createRestaurant(final Restaurant restaurant) throws Exception {
+	public Boolean createRestaurant(final Restaurant restaurant, final User user) throws Exception {
 		getSession().save(restaurant);
+		
+		try {
+			logService.postActivityLog("Added restaurant" + restaurant.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 
@@ -52,8 +60,15 @@ public class RestaurantService extends BaseService {
 	 * @param restaurant the restaurant
 	 * @throws Exception the exception
 	 */
-	public Boolean editRestaurant(final Restaurant restaurant) throws Exception {
+	public Boolean editRestaurant(final Restaurant restaurant, final User user) throws Exception {
 		getSession().merge(restaurant);
+		
+		try {
+			logService.postActivityLog("Edited restaurant" + restaurant.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return true;
 	}
 
@@ -63,12 +78,18 @@ public class RestaurantService extends BaseService {
 	 * @param id the id
 	 * @throws Exception the exception
 	 */
-	public Boolean deleteRestaurant(final UUID id) throws Exception {
+	public Boolean deleteRestaurant(final UUID id, final User user) throws Exception {
 		Restaurant restaurant = (Restaurant) getSession().createCriteria(Restaurant.class)
 				.add(Restrictions.eq("id", id))
 				.uniqueResult();
 
 		getSession().delete(restaurant);
+		
+		try {
+			logService.postActivityLog("Deleted restaurant" + restaurant.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 
@@ -217,6 +238,16 @@ public class RestaurantService extends BaseService {
 		}
 
 		getSession().save(restaurantReview);
+		
+		Restaurant restaurant = (Restaurant) getSession().createCriteria(Restaurant.class)
+				.add(Restrictions.eq("id", reviewForm.getRestaurantId()));
+		
+		try {
+			logService.postActivityLog("Post review:" + restaurant.getName() + " " + restaurantReview.getReview(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 
@@ -238,7 +269,7 @@ public class RestaurantService extends BaseService {
 	 * @return the string
 	 * @throws Exception the exception
 	 */
-	public String updatePicture(final ImageUploadForm imageUploadForm) throws Exception {
+	public String updatePicture(final ImageUploadForm imageUploadForm, User user) throws Exception {
 		Restaurant restaurant = (Restaurant) getSession().createCriteria(Restaurant.class)
 				.add(Restrictions.eq("id", imageUploadForm.getRestaurantId()))
 				.uniqueResult();
@@ -252,6 +283,13 @@ public class RestaurantService extends BaseService {
 		}
 
 		getSession().update(restaurant);
+		
+		try {
+			logService.postActivityLog("Updated picture of restaurant:" + restaurant.getName(), user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "{ \"imageFor\": \"" + imageUploadForm.getImageType() + "\", \"url\": \"" + newImagePath + "\"}";
 	}
 }

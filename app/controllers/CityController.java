@@ -43,7 +43,7 @@ public class CityController extends BaseController {
 	 */
 	@Transactional
 	public Result createCity() {
-		return wrapForAdmin(() -> this.service.createCity(formFactory.form(City.class).bindFromRequest().get()));
+		return wrapForAdmin(() -> this.service.createCity(formFactory.form(City.class).bindFromRequest().get(), this.cache.get(session("uid"))));
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class CityController extends BaseController {
 	 */
 	@Transactional
 	public Result editCity() {
-		return wrapForAdmin(() -> this.service.editCity(formFactory.form(City.class).bindFromRequest().get()));
+		return wrapForAdmin(() -> this.service.editCity(formFactory.form(City.class).bindFromRequest().get(), this.cache.get(session("uid"))));
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class CityController extends BaseController {
 	 */
 	@Transactional
 	public Result deleteCity(final String id) {
-		return wrapForAdmin(() -> this.service.deleteCity(UUID.fromString(id)));
+		return wrapForAdmin(() -> this.service.deleteCity(UUID.fromString(id), this.cache.get(session("uid"))));
 	}
 
 	/**

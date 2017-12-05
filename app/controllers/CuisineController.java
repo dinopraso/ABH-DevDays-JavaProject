@@ -43,7 +43,7 @@ public class CuisineController extends BaseController {
 	 */
 	@Transactional
 	public Result createCuisine() {
-		return wrapForAdmin(() -> this.service.createCuisine(formFactory.form(Cuisine.class).bindFromRequest().get()));
+		return wrapForAdmin(() -> this.service.createCuisine(formFactory.form(Cuisine.class).bindFromRequest().get(), this.cache.get(session("uid"))));
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class CuisineController extends BaseController {
 	 */
 	@Transactional
 	public Result editCuisine() {
-		return wrapForAdmin(() -> this.service.editCuisine(formFactory.form(Cuisine.class).bindFromRequest().get()));
+		return wrapForAdmin(() -> this.service.editCuisine(formFactory.form(Cuisine.class).bindFromRequest().get(), this.cache.get(session("uid"))));
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class CuisineController extends BaseController {
 	 */
 	@Transactional
 	public Result deleteCuisine(String id) {
-		return wrapForAdmin(() -> this.service.deleteCuisine(UUID.fromString(id)));
+		return wrapForAdmin(() -> this.service.deleteCuisine(UUID.fromString(id), this.cache.get(session("uid"))));
 	}
 
 	/**
