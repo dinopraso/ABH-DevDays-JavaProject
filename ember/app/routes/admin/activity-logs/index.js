@@ -2,9 +2,15 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 	ajax: Ember.inject.service(),
-	model() {
+	queryParams: {
+	  currentPage: {
+      refreshModel: true, 
+      },
+	},
+	model(params) {
 		return Ember.RSVP.hash({
-			logs: this.get('ajax').request('/admin/getAllActivityLogs'),
+			logs: this.get('ajax').request('/admin/getAllActivityLogs?pageSize=19&pageNumber=' + params.currentPage),
 	    });
 	},
 });
+

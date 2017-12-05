@@ -5,8 +5,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 
+import models.helpers.PaginationAdapter;
 import models.tables.ActivityLog;
 import models.tables.User;
 import play.db.jpa.Transactional;
@@ -23,14 +26,33 @@ public class ActivityLogService extends BaseService {
 	/**
 	 * Gets all activity logs.
 	 * 
-	 * @return the all activity logs
-	 * 
+	 * @param activityLog the activity log
+	 * @return the pagination adapter
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivityLog> getAllActivityLogs() {
-		return (List<ActivityLog>) getSession().createCriteria(ActivityLog.class)
-				.addOrder(Order.desc("date_time"))
-				.list();
+	public PaginationAdapter<ActivityLog> getAllActivityLogs(final ActivityLog activityLog) {
+		
+		Criteria criteria = getSession().createCriteria(ActivityLog.class);
+		
+		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / activityLog.pageSize;
+		
+		if((((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) % activityLog.pageSize) > 0){
+			numberOfPages++;
+		}
+		
+		criteria.setProjection(null)
+			.setFirstResult((activityLog.pageNumber - 1) * activityLog.pageSize)
+			.setMaxResults(activityLog.pageSize);
+		
+		criteria.addOrder(Order.desc("date_time"));
+		
+		List<ActivityLog> logs = criteria.list();
+		
+		return PaginationAdapter.createOutput()
+				.setPageNumber(activityLog.pageNumber)
+				.setPageSize(activityLog.pageSize)
+				.setModel(logs)
+				.setNumberOfPages(numberOfPages);
 	}
 
 	/**

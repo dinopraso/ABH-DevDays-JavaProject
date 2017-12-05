@@ -15,7 +15,7 @@
     		<h3>Time</h3>
     	</div>
  	</li>
- 	{{#each model.logs as |log|}}
+ 	{{#each model.logs.model as |log|}}
  	<li class="admin-form-object-list-item">
  		<div class="col-xs-12 col-sm-3">
 			<span>{{log.user.name}}</span>
@@ -32,5 +32,6 @@
  	</li>
     {{/each}}
  	</ul>
+ 	{{page-numbers currentPage=model.logs.pageNumber maxPages=model.logs.numberOfPages}}
 </div>
 {{outlet}}

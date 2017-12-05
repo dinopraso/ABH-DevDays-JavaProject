@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import exceptions.ServiceException;
 import models.BaseModel;
 
 /**
@@ -47,9 +48,21 @@ public class ActivityLog extends BaseModel {
 	private String time;
 	
 	/**
-	 * Instantiates a new ActivityLog.
+	 * The Page number.
 	 */
+	@Transient
+	public Integer pageNumber = 1;
+	/**
+	 * The Page size.
+	 */
+	@Transient
+	public Integer pageSize = 19;
+	
 	public ActivityLog() { }
+	
+	public static ActivityLog createLog(){
+		return new ActivityLog();
+	}
 	
 	/**
 	 * Gets id.
@@ -142,5 +155,37 @@ public class ActivityLog extends BaseModel {
 	 * @param time the time
 	 */
 	public void setTime(String time) {	this.time = time;	}
+	
+	/**
+	 * Sets page number.
+	 *
+	 * @param pageNumber the page number
+	 * @return the page number
+	 * @throws ServiceException the service exception
+	 */
+	public ActivityLog setPageNumber(Integer pageNumber) throws ServiceException {
+		if (pageNumber <= 0) {
+			throw new ServiceException("Page Number must be a Positive Integer");
+		} else {
+			this.pageNumber = pageNumber;
+		}
+		return this;
+	}
+
+	/**
+	 * Sets page size.
+	 *
+	 * @param pageSize the page size
+	 * @return the page size
+	 * @throws ServiceException the service exception
+	 */
+	public ActivityLog setPageSize(Integer pageSize) throws ServiceException {
+		if (pageSize <= 0) {
+			throw new ServiceException("Page Size must be a Positive Integer");
+		} else {
+			this.pageSize = pageSize;
+		}
+		return this;
+	}
 	
 }

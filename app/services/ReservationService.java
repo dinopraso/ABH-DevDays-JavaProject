@@ -168,11 +168,11 @@ public class ReservationService extends BaseService {
 		getSession().save(reservation);
 		
 		
-		Restaurant restaurant = (Restaurant) getSession().createCriteria(Restaurant.class)
+		/*Restaurant restaurant = (Restaurant) getSession().createCriteria(Restaurant.class)
 				.add(Restrictions.eq("id", reservationForm.getRestaurantId()));
-		
+		*/
 		try {
-			logService.postActivityLog("Made reservation in restaurant " + restaurant.getName(), user);
+			logService.postActivityLog("Made reservation in restaurant ", user);
         } catch (Exception e) {
             e.printStackTrace();
         }
