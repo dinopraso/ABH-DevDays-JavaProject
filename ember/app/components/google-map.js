@@ -4,7 +4,8 @@ import $ from 'jquery';
 export default Ember.Component.extend({
   editableMarker: false,
   editableBounds: false,
-
+  zoomMap: 13,
+  
   didInsertElement(...args) {
     this._super(...args);
     this.renderGoogleMap($('.map-canvas')[0]);
@@ -13,7 +14,9 @@ export default Ember.Component.extend({
   renderGoogleMap(container) {
     let options = {
       center: new window.google.maps.LatLng(43.9, 18),
-      zoom: 7,
+      scrollwheel: true,
+      zoom: this.get('zoomMap'),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
 
     let map = new window.google.maps.Map(container, options);
@@ -21,10 +24,10 @@ export default Ember.Component.extend({
     let bounds = (typeof this.get('bounds') !== 'undefined') ? JSON.parse(this.get('bounds')) : null;
     let coords = (bounds !== null && bounds.length > 0) ? bounds :
     [
-      { lat: 44.773, lng: 17.244 },
-      { lat: 43.624, lng: 17.310 },
-      { lat: 43.630, lng: 18.904 },
-      { lat: 44.773, lng: 18.907 },
+      { lat: 43.702, lng: 18.115 },
+      { lat: 43.987, lng: 18.115 },
+      { lat: 43.987, lng: 18.631 },
+      { lat: 43.702, lng: 18.631 },
     ];
 
     let zoomBounds = new google.maps.LatLngBounds();
@@ -43,10 +46,11 @@ export default Ember.Component.extend({
     } else {
       markerPosition = new google.maps.LatLng(this.get('markerLat'), this.get('markerLng'));
     }
-
+    
     let marker = new google.maps.Marker({
       position: markerPosition,
       draggable: this.get('editableMarker'),
+      tittle: 'Location',
     });
 
     marker.setMap(map);
@@ -66,5 +70,5 @@ export default Ember.Component.extend({
 
     polygon.setMap(map);
     this.set('polygon', polygon);
-  }
+   }
 });
