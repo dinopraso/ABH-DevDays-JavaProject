@@ -65,6 +65,8 @@ GET     /api/v1/getAllCities                                controllers.CityCont
 
 # ADMINISTRATOR MANAGEMENT ROUTES --------------------------------------------------------------------------------------
 
+GET /api/v1/getAdministratorStatistics                     controllers.AdministratorController.getAdministratorStatistics
+
 # EMBER PASSTHROUGH ROUTES ---------------------------------------------------------------------------------------------
 
 GET     /assets/*file                                       controllers.Assets.at(path="/public/assets", file)
