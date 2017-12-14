@@ -5,6 +5,7 @@ import models.helpers.RestaurantFilter;
 import models.helpers.forms.ImageUploadForm;
 import models.helpers.forms.ReviewForm;
 import models.tables.Restaurant;
+import models.tables.User;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
 import services.RestaurantService;
@@ -114,13 +115,14 @@ public class RestaurantController extends BaseController {
 	 * @return the popular restaurants
 	 */
 	@Transactional(readOnly = true)
-	public Result getPopularRestaurants(String id) {
-	        if(id != "undefined"){
-		return wrapForPublic(() -> this.service.getPopularRestaurants(UUID.fromString(id)));
-	        }
-	        else{
-	            return wrapForPublic(() -> this.service.getPopularRestaurants());
-	        }
+	public Result getPopularRestaurants() {
+	        
+	      
+	        User user = this.cache.get(session("uid"));
+	      //  String id = user.getId().toString();
+		return wrapForPublic(() -> this.service.getPopularRestaurants(user));
+	        
+	       
 	}
 
 	/**

@@ -172,61 +172,44 @@ public class RestaurantService extends BaseService
      * @return the popular restaurants
      */
     @SuppressWarnings("unchecked")
-    public List<Restaurant> getPopularRestaurants(UUID userId)
+    public PaginationAdapter<Restaurant> getPopularRestaurants(User user)
     {
-
-	UserHabitsBean userHabits = getUserHabits(userId);
-      
-	List<Restaurant> restaurants = (List<Restaurant>) getSession().createCriteria(Restaurant.class)
-		.add(Restrictions.eq("city.id", userHabits.getCity()))
-		.add(Restrictions.eq("priceRange", userHabits.getUserPriceRange())).list();
-
-	List<Object> toRemove = new ArrayList<Object>();
-
-	for (Restaurant restaurant : restaurants)
+	if (user != null)
 	{
 
-	    if (restaurant.getAverageRating() < (userHabits.getUserRatingRange() - 0.5d)
-		    || restaurant.getAverageRating() > (userHabits.getUserRatingRange() + 0.5d))
+	    UserHabitsBean userHabits = getUserHabits(user);
+	    if (userHabits != null)
 	    {
-		toRemove.add(restaurant);
-	    }
 
-	}
-	restaurants.removeAll(toRemove);
+		List<Restaurant> restaurants = (List<Restaurant>) getSession().createCriteria(Restaurant.class)
+			.add(Restrictions.eq("city.id", userHabits.getCity()))
+			.add(Restrictions.eq("priceRange", userHabits.getUserPriceRange())).list();
+	
 
-	if (restaurants.size() > 0)
-	{
-	    return restaurants;
-	}
+		List<Restaurant> toRemove = new ArrayList<Restaurant>();
 
-	return new ArrayList<>();
-    }
-    @SuppressWarnings("unchecked")
-	public List<Restaurant> getPopularRestaurants() {
+		for (Restaurant restaurant : restaurants)
+		{
 
-		List<PopularRestaurantsBean> popularRestaurantsBeans = getSession().createCriteria(Reservation.class, "reservation")
-				.createAlias("reservation.table", "table")
-				.setProjection(Projections.projectionList()
-						.add(Projections.groupProperty("table.restaurantId").as("restaurantId"))
-						.add(Projections.count("table").as("tableCount")))
-				.addOrder(Order.asc("tableCount"))
-				.setResultTransformer(Transformers.aliasToBean(PopularRestaurantsBean.class))
-				.setMaxResults(6)
-				.list();
+		    if (restaurant.getAverageRating() < (userHabits.getUserRatingRange() - 0.5d)
+			    || restaurant.getAverageRating() > (userHabits.getUserRatingRange() + 0.5d))
+		    {
+			toRemove.add(restaurant);
+		    }
 
-		if (popularRestaurantsBeans.size() > 0) {
-			List<UUID> popularRestaurantsIds = popularRestaurantsBeans.stream().map(PopularRestaurantsBean::getRestaurantId).collect(Collectors.toList());
+		}
+		restaurants.removeAll(toRemove);
 
-			return (List<Restaurant>) getSession().createCriteria(Restaurant.class)
-					.add(Restrictions.in("id", popularRestaurantsIds))
-					.addOrder(Order.asc("name"))
-					.list();
+		if (restaurants.size() > 0)
+		{
+		    return PaginationAdapter.createOutput().setPageNumber(1)
+				.setPageSize(6).setModel(restaurants).setNumberOfPages(1l);
 		}
 
-		return new ArrayList<>();
+	    }
 	}
-
+	return PaginationAdapter.createOutput();
+    }
 
     /**
      * Gets popular locations.
@@ -312,37 +295,37 @@ public class RestaurantService extends BaseService
     }
 
     @SuppressWarnings("unchecked")
-    private UserHabitsBean getUserHabits(UUID userId)
+    private UserHabitsBean getUserHabits(User user)
     {
 
-	Integer price = 0;
-
-	UUID cityID = (UUID) getSession().createCriteria(User.class).setProjection(Projections.property("city.id"))
-		.uniqueResult();
+	UUID userId = user.getId();
 
 	List<RestaurantReview> restaurantReviews = getSession().createCriteria(RestaurantReview.class)
 		.add(Restrictions.eq("userId", userId)).list();
 
 	List<UUID> userReviewRestaurantIds = restaurantReviews.stream().map(RestaurantReview::getRestaurantId)
 		.collect(Collectors.toList());
-
-	List<Restaurant> userVisitedRestaurant = getSession().createCriteria(Restaurant.class)
-		.add(Restrictions.in("id", userReviewRestaurantIds)).list();
-
-	for (Restaurant restaurant : userVisitedRestaurant)
+	if (userReviewRestaurantIds.size() > 0)
 	{
-	    price += restaurant.getPriceRange();
+
+	    Double temp = (Double) getSession().createCriteria(Restaurant.class)
+		    .add(Restrictions.in("id", userReviewRestaurantIds)).setProjection(Projections.avg("priceRange"))
+		    .uniqueResult();
+
+	    Integer priceRange = temp.intValue();
+
+	    UserHabitsBean userHabitsBean = (UserHabitsBean) getSession()
+		    .createCriteria(RestaurantReview.class, "review").add(Restrictions.eq("userId", userId))
+		    .setProjection(
+			    Projections.projectionList().add(Projections.groupProperty("review.userId").as("userId"))
+				    .add(Projections.avg("review.rating").as("userRatingRange")))
+		    .setResultTransformer(Transformers.aliasToBean(UserHabitsBean.class)).uniqueResult();
+
+	    userHabitsBean.setUserPriceRange(priceRange);
+	    userHabitsBean.setCity(user.getCity().getId());
+	    return userHabitsBean;
 	}
-	price /= userVisitedRestaurant.size();
 
-	UserHabitsBean userHabitsBean = (UserHabitsBean) getSession().createCriteria(RestaurantReview.class, "review")
-		.add(Restrictions.eq("userId", userId))
-		.setProjection(Projections.projectionList().add(Projections.groupProperty("review.userId").as("userId"))
-			.add(Projections.avg("review.rating").as("userRatingRange")))
-		.setResultTransformer(Transformers.aliasToBean(UserHabitsBean.class)).uniqueResult();
-
-	userHabitsBean.setUserPriceRange(price);
-	userHabitsBean.setCity(cityID);
-	return userHabitsBean;
+	return null;
     }
 }

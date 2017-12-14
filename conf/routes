@@ -28,7 +28,7 @@ GET     /api/v1/getAllRestaurants                           controllers.Restaura
 GET     /api/v1/getNumberOfRestaurants                      controllers.RestaurantController.getNumberOfRestaurants
 GET     /api/v1/getNearbyRestaurants/:latitude/:longitude   controllers.RestaurantController.getNearbyRestaurants(latitude: Float,longitude: Float)
 
-GET     /api/v1/getPopularRestaurants/:id                   controllers.RestaurantController.getPopularRestaurants(id: String)
+GET     /api/v1/getPopularRestaurants                   controllers.RestaurantController.getPopularRestaurants
 GET     /api/v1/getPopularLocations                         controllers.RestaurantController.getPopularLocations
 
 POST    /api/v1/postReview                                  controllers.RestaurantController.postReview

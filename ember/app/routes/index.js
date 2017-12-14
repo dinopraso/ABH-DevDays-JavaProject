@@ -11,6 +11,7 @@ export default Ember.Route.extend({
 
   model() {
     return Ember.RSVP.hash({
+      popularRestaurants: this.get('ajax').request('/getPopularRestaurants'),
       popularLocations: this.get('ajax').request('/getPopularLocations'),
       numberOfRastaurants: this.get('ajax').request('/getNumberOfRestaurants'),
       user: this.get('ajax').request('/getCurrentUser', {

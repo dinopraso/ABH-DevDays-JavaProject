@@ -15,19 +15,11 @@ export default Ember.Controller.extend({
   restaurant_name: '',
   number_of_people: 2,
 
-  hasPopularRestaurants: notEmpty('model.popularRestaurants'),
+  hasPopularRestaurants: notEmpty('model.popularRestaurants.model'),
   geolocation: navigator.geolocation,
 
   time: '17:30',
   date: new Date().toISOString().substring(0, 10),
-
-  popRes: function(){
-	 console.log(this.get('model.user.id'));
-      this.get('ajax')
-          .request('/getPopularRestaurants/' + this.get('model.user.id'))
-          .then(result => this.set('popRes', result));
-        
-  }.property('popRes'),
   
   nearbyRestaurants: function () {
     if (this.get('geolocation')) {
