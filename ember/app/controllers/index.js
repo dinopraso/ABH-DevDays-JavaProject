@@ -15,12 +15,12 @@ export default Ember.Controller.extend({
   restaurant_name: '',
   number_of_people: 2,
 
-  hasPopularRestaurants: notEmpty('model.popularRestaurants'),
+  hasPopularRestaurants: notEmpty('model.popularRestaurants.model'),
   geolocation: navigator.geolocation,
 
   time: '17:30',
   date: new Date().toISOString().substring(0, 10),
-
+  
   nearbyRestaurants: function () {
     if (this.get('geolocation')) {
       this.get('geolocation').getCurrentPosition(
@@ -43,6 +43,7 @@ export default Ember.Controller.extend({
       };
       this.transitionToRoute('search-results', { queryParams: filters });
     },
+    
 
     setNumberOfPeople() {
       let selectBox = document.getElementById('numberOfPeople');
