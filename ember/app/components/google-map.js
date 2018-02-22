@@ -24,7 +24,7 @@ export default Ember.Component.extend({
       { lat: 44.773, lng: 17.244 },
       { lat: 43.624, lng: 17.310 },
       { lat: 43.630, lng: 18.904 },
-      { lat: 44.773, lng: 18.907 },
+      { lat: 44.773, lng: 18.907 }
     ];
 
     let zoomBounds = new google.maps.LatLngBounds();
@@ -37,7 +37,7 @@ export default Ember.Component.extend({
     map.fitBounds(zoomBounds);
 
     let markerPosition;
-    if (this.get('markerLat') === 0 && this.get('markerLng') === 0) {
+    if (this.get('markerLat') === 0 && this.get('markerLng') === 0 || this.get('markerLat') === undefined && this.get('markerLng') === undefined) {
       markerPosition = zoomBounds.getCenter();
       this.set('defaultMerkerPosition', markerPosition);
     } else {
@@ -64,7 +64,7 @@ export default Ember.Component.extend({
       geodesic: true,
     });
 
-    polygon.setMap(map);
+    // polygon.setMap(map);
     this.set('polygon', polygon);
   }
 });

@@ -70,6 +70,9 @@
           </div>
           <div id="about" class="restaurant-card">
             <h2 class="restaurant-card-title">About {{model.restaurant.name}}</h2>
+
+            {{google-map markerLat=model.restaurant.latitude markerLng=model.restaurant.longitude bounds=model.restaurant.city.bounds}}
+
             <h5 class="restaurant-card-subtitle">Description</h5>
             <p class="restaurant-card-bodytext">
               {{model.restaurant.description}}
