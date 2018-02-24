@@ -46,6 +46,8 @@ export default Ember.Component.extend({
       markerPosition = new google.maps.LatLng(this.get('markerLat'), this.get('markerLng'));
     }
 
+    map.panTo(markerPosition);
+
     let marker = new google.maps.Marker({
       position: markerPosition,
       draggable: this.get('editableMarker'),
@@ -66,8 +68,6 @@ export default Ember.Component.extend({
       draggable: this.get('editableBounds'),
       geodesic: true,
     });
-
-    map.setCenter(markerPosition);
 
     polygon.setMap(map);
     this.set('polygon', polygon);
