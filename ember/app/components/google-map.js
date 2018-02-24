@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   renderGoogleMap(container) {
     let options = {
       center: new window.google.maps.LatLng(43.9, 18),
-      zoom: 7,
+      minZoom: 10,
     };
 
     let map = new window.google.maps.Map(container, options);
@@ -28,6 +28,7 @@ export default Ember.Component.extend({
     ];
 
     let zoomBounds = new google.maps.LatLngBounds();
+
     for (let coordiante in coords) {
       if (coords.hasOwnProperty(coordiante)) {
         zoomBounds.extend(new google.maps.LatLng(coords[coordiante].lat, coords[coordiante].lng));
@@ -37,6 +38,7 @@ export default Ember.Component.extend({
     map.fitBounds(zoomBounds);
 
     let markerPosition;
+
     if (this.get('markerLat') === 0 && this.get('markerLng') === 0) {
       markerPosition = zoomBounds.getCenter();
       this.set('defaultMerkerPosition', markerPosition);
@@ -44,21 +46,24 @@ export default Ember.Component.extend({
       markerPosition = new google.maps.LatLng(this.get('markerLat'), this.get('markerLng'));
     }
 
+    map.panTo(markerPosition);
+
     let marker = new google.maps.Marker({
       position: markerPosition,
       draggable: this.get('editableMarker'),
     });
 
     marker.setMap(map);
+
     this.set('marker', marker);
 
     let polygon = new google.maps.Polygon({
       paths: coords,
       strokeColor: '#fd6f60',
-      strokeOpacity: 0.8,
+      strokeOpacity: 0.6,
       strokeWeight: 2,
       fillColor: '#fd6f60',
-      fillOpacity: 0.1,
+      fillOpacity: 0.05,
       editable: this.get('editableBounds'),
       draggable: this.get('editableBounds'),
       geodesic: true,
