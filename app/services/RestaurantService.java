@@ -16,6 +16,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
+import org.hibernate.criterion.*;
+import models.tables.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -86,9 +88,28 @@ public class RestaurantService extends BaseService {
 			criteria.add(Restrictions.ilike("name", restaurantFilter.name, MatchMode.ANYWHERE));
 		}
 
+		if (restaurantFilter.cuisine != null && !restaurantFilter.cuisine.isEmpty() ) {
+						Criteria cuisineCriteria = criteria.createCriteria("cuisines");
+						Disjunction disjunction = Restrictions.disjunction();
+						for(String singleCuisine : restaurantFilter.cuisine.split(",")){
+				                disjunction.add(Restrictions.eq("name", singleCuisine));
+				            }
+						cuisineCriteria.add(disjunction);
+
+							}
+
+
 		if (restaurantFilter.cityId != null) {
 			criteria.add(Restrictions.eq("city.id", restaurantFilter.cityId));
 		}
+
+		if (restaurantFilter.price != null && restaurantFilter.price != 0) {
+						criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
+					}
+
+						if (restaurantFilter.rating != null && restaurantFilter.rating != 0){
+						criteria.add(Restrictions.eq("starRating", restaurantFilter.rating));
+					}
 
 		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
@@ -100,7 +121,7 @@ public class RestaurantService extends BaseService {
 			criteria.addOrder(Order.desc("priceRange"));
 		}
 
-		criteria.addOrder(Order.asc("name"));
+		criteria.addOrder(Order.asc("name")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 		List<Restaurant> restaurants = criteria.list();
 
@@ -217,8 +238,12 @@ public class RestaurantService extends BaseService {
 		}
 
 		getSession().save(restaurantReview);
+
 		return true;
 	}
+
+
+
 
 	/**
 	 * Gets number of restaurants.
