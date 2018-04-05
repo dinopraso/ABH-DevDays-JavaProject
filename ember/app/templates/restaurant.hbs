@@ -68,6 +68,9 @@
               {{/unless}}
             {{/if}}
           </div>
+
+          {{google-map markerLat=model.restaurant.latitude markerLng=model.restaurant.longitude}}
+
           <div id="about" class="restaurant-card">
             <h2 class="restaurant-card-title">About {{model.restaurant.name}}</h2>
             <h5 class="restaurant-card-subtitle">Description</h5>
@@ -106,6 +109,7 @@
                         </div>
                       </div>
                     </div>
+
                     {{/each}}
                   </div>
                   <div class="tab-pane" id="lunch">
@@ -131,9 +135,11 @@
                     </div>
                     {{/each}}
                   </div>
+
                   <div class="tab-pane" id="dinner">
                     {{#each dinnerMenu as |item index|}}
                     <div class="row">
+
                       <div class="col-xs-12">
                         <div class="menu-item">
                           <div class="row">
@@ -148,16 +154,19 @@
                         <div class="row">
                           <div class="col-xs-12">
                             <h5 class="dish-description">{{item.description}}</h5>
+
                           </div>
                         </div>
                       </div>
                     </div>
                     {{/each}}
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <h1>{{log model.restaurant.photos}}</h1>
         </div>
       </div>
     </div>
