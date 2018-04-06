@@ -116,7 +116,7 @@ public class RestaurantFilter {
 	}
 
 	public RestaurantFilter setCuisineFilter(String[] cuisines) throws	ServiceException {
-		this.cuisine = cuisines == null ? new String[0] : cuisines;
+		this.cuisine = cuisines == null || cuisines[0].isEmpty() ? new String[0] : cuisines;
 		for(String a : this.cuisine) {
 			Logger.debug(a);
 		}
