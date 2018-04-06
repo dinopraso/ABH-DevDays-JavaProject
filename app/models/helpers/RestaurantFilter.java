@@ -3,6 +3,11 @@ package models.helpers;
 import exceptions.ServiceException;
 
 import java.util.UUID;
+import java.util.List;
+import java.util.Arrays;
+import java.util.Map;
+
+import play.Logger;
 
 /**
  * The type Restaurant filter.
@@ -29,6 +34,10 @@ public class RestaurantFilter {
 	 * The Sort by.
 	 */
 	public String sortBy;
+
+	public String[] cuisine;
+	public Integer rating;
+	public Integer price;
 
 	private RestaurantFilter() { }
 
@@ -93,6 +102,25 @@ public class RestaurantFilter {
 	 */
 	public RestaurantFilter setCityFilter(UUID cityId) throws ServiceException {
 		this.cityId = cityId;
+		return this;
+	}
+
+	public RestaurantFilter setPriceFilter(Integer price) throws	ServiceException {
+		this.price = price;
+		return this;
+	}
+
+	public RestaurantFilter setRatingFilter(Integer rating) throws ServiceException {
+		this.rating = rating;
+		return this;
+	}
+
+	public RestaurantFilter setCuisineFilter(String[] cuisines) throws	ServiceException {
+		this.cuisine = cuisines == null ? new String[0] : cuisines;
+		for(String a : this.cuisine) {
+			Logger.debug(a);
+		}
+		
 		return this;
 	}
 
