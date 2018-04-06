@@ -20,9 +20,12 @@ import org.hibernate.transform.Transformers;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import play.Logger;
 
 /**
  * The type Restaurant service.
@@ -82,6 +85,16 @@ public class RestaurantService extends BaseService {
 	public PaginationAdapter<Restaurant> findRestaurantsWithFilter(final RestaurantFilter restaurantFilter) {
 		Criteria criteria = getSession().createCriteria(Restaurant.class);
 
+		if (restaurantFilter.cuisine != null && restaurantFilter.cuisine.length > 0) {
+			// Arrays.stream(restaurantFilter.cuisine).map(c -> cuisineCriteria.add(Restrictions.eq("name", c)));
+			criteria.createCriteria("cuisines")
+						.add(Restrictions.in("name", Arrays.asList(restaurantFilter.cuisine)));
+		}
+
+		if (restaurantFilter.price != 0) {
+			criteria.add(Restrictions.ge("priceRange", restaurantFilter.price));
+		}
+
 		if (restaurantFilter.name != null) {
 			criteria.add(Restrictions.ilike("name", restaurantFilter.name, MatchMode.ANYWHERE));
 		}
@@ -90,7 +103,7 @@ public class RestaurantService extends BaseService {
 			criteria.add(Restrictions.eq("city.id", restaurantFilter.cityId));
 		}
 
-		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
+		// Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
 		criteria.setProjection(null)
 				.setFirstResult((restaurantFilter.pageNumber - 1) * restaurantFilter.pageSize)
@@ -103,6 +116,12 @@ public class RestaurantService extends BaseService {
 		criteria.addOrder(Order.asc("name"));
 
 		List<Restaurant> restaurants = criteria.list();
+
+		if (restaurantFilter.rating != 0) {
+			restaurants = restaurants.stream().filter(r -> getRatingClass(restaurantFilter.rating, r.getAverageRating())).collect(Collectors.toList());
+		}
+
+		Long numberOfPages = ((long)restaurants.size()) / restaurantFilter.pageSize;
 
 		switch (restaurantFilter.sortBy) {
 			case "rating":
@@ -253,5 +272,21 @@ public class RestaurantService extends BaseService {
 
 		getSession().update(restaurant);
 		return "{ \"imageFor\": \"" + imageUploadForm.getImageType() + "\", \"url\": \"" + newImagePath + "\"}";
+	}
+
+	private Boolean getRatingClass(int filter, double averageRating) {
+		if(averageRating >= 0.25 && filter >= 1) {
+			return true;
+		} else if(averageRating >= 2 && filter >= 2) {
+			return true;
+		} else if(averageRating >= 3 && filter >= 3) {
+			return true;
+		} else if(averageRating >= 4 && filter >= 4) {
+			return true;
+		} else if(averageRating >= 4.75 && filter >= 5) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
