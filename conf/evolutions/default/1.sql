@@ -1,4 +1,9 @@
 # --- !Ups
+CREATE TABLE IF NOT EXISTS logs (
+	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+	logging_time timestamp without time zone NOT NULL,
+	description character varying(256) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS city (
 	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -77,6 +82,7 @@ CREATE TABLE IF NOT EXISTS restaurant_photo (
 
 # --- !Downs
 
+DROP TABLE IF EXISTS logs;
 DROP TABLE IF EXISTS restaurant_photo;
 DROP TABLE IF EXISTS restaurant_cuisine;
 DROP TABLE IF EXISTS cuisine;
