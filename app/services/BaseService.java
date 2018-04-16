@@ -9,14 +9,14 @@ import java.util.Base64;
 /**
  * The type Base service.
  */
-abstract class BaseService {
+public abstract class BaseService {
 
 	/**
 	 * Gets session.
 	 *
 	 * @return the session
 	 */
-	Session getSession() {
+	public Session getSession() {
 		return ((HibernateEntityManager) JPA.em()).getSession();
 	}
 
