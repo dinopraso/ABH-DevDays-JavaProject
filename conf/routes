@@ -71,3 +71,7 @@ GET     /assets/*file                                       controllers.Assets.a
 GET     /fonts/*file                                        controllers.Assets.at(path="/public/fonts", file)
 GET     /                                                   controllers.EmberController.index(slug="")
 GET     /*slug                                              controllers.EmberController.index(slug)
+
+# CUISINE MANAGEMENT ROUTES --------------------------------------------------------------------------------------------
+GET  /api/v1/admin/logs/                                    controllers.LogController.getAllLogs
+
